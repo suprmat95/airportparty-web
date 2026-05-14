@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AirportParty — Home wireframes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Architects+Daughter&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #f0eee9; font-family: 'Architects Daughter', cursive; }
+    * { box-sizing: border-box; }
+    :root {
+      --ap-accent: #ff3d7f;
+      --ap-accent-soft: #ffe0ec;
+    }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="wireframes.jsx"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "density": "rich",
+      "accent": "#ff3d7f",
+      "showAnnotations": true
+    }/*EDITMODE-END*/;
+
+    const ACCENT_PRESETS = {
+      "#ff3d7f": "#ffe0ec",   // pink
+      "#ff7a3d": "#ffe5d2",   // orange
+      "#3d8cff": "#d8e8ff",   // blue
+      "#1aa86a": "#cdf0dc",   // green
+      "#1a1a1a": "#e6e6e6",   // mono
+    };
+
+    function App() {
+      const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+      // Apply accent CSS vars
+      React.useEffect(() => {
+        const soft = ACCENT_PRESETS[tweaks.accent] || "#ffe0ec";
+        document.documentElement.style.setProperty('--ap-accent', tweaks.accent);
+        document.documentElement.style.setProperty('--ap-accent-soft', soft);
+      }, [tweaks.accent]);
+
+      const note = tweaks.showAnnotations;
+
+      return (
+        <>
+          <SketchDefs />
+          <DesignCanvas>
+            <DCSection
+              id="intro"
+              title="AirportParty — homepage"
+              subtitle="4 direzioni a confronto · low-fi · mobile web · IT"
+            >
+              <DCArtboard
+                id="w1"
+                label="01 · Classico — Wizard scrollabile"
+                width={PHONE_W + 40}
+                height={PHONE_H + 40}
+              >
+                <div style={{ padding: 20 }} data-screen-label="01 Classic">
+                  <W1_Classic density={tweaks.density} />
+                </div>
+              </DCArtboard>
+
+              <DCArtboard
+                id="w2"
+                label="02 · Boarding pass"
+                width={PHONE_W + 40}
+                height={PHONE_H + 40}
+              >
+                <div style={{ padding: 20 }} data-screen-label="02 Boarding pass">
+                  <W2_BoardingPass density={tweaks.density} />
+                </div>
+              </DCArtboard>
+
+              <DCArtboard
+                id="w3"
+                label="03 · Search-first denso"
+                width={PHONE_W + 40}
+                height={PHONE_H + 40}
+              >
+                <div style={{ padding: 20 }} data-screen-label="03 Search first">
+                  <W3_SearchFirst density={tweaks.density} />
+                </div>
+              </DCArtboard>
+
+              <DCArtboard
+                id="w4"
+                label="04 · Timeline al gate"
+                width={PHONE_W + 40}
+                height={PHONE_H + 40}
+              >
+                <div style={{ padding: 20 }} data-screen-label="04 Timeline">
+                  <W4_Timeline density={tweaks.density} />
+                </div>
+              </DCArtboard>
+            </DCSection>
+
+            {note && (
+              <>
+                <DCPostIt top={120} left={40} rotate={-4} width={200}>
+                  <b>flusso comune:</b><br/>
+                  aeroporto → orario → slot da 30'<br/>
+                  pre-partenza
+                </DCPostIt>
+                <DCPostIt top={400} left={20} rotate={3} width={180}>
+                  ogni slot mostra:<br/>
+                  ⌚ orario · 👥 numero · ◐ avatar
+                </DCPostIt>
+              </>
+            )}
+          </DesignCanvas>
+
+          <TweaksPanel title="Tweaks">
+            <TweakSection label="Densità slot">
+              <TweakRadio
+                label="Info"
+                value={tweaks.density}
+                onChange={(v) => setTweak('density', v)}
+                options={[
+                  { value: 'minimal', label: 'Minimal' },
+                  { value: 'rich', label: 'Ricca' },
+                ]}
+              />
+            </TweakSection>
+
+            <TweakSection label="Colore accent">
+              <TweakSelect
+                label="Tono"
+                value={tweaks.accent}
+                onChange={(v) => setTweak('accent', v)}
+                options={[
+                  { value: '#ff3d7f', label: 'Pink' },
+                  { value: '#ff7a3d', label: 'Orange' },
+                  { value: '#3d8cff', label: 'Blue' },
+                  { value: '#1aa86a', label: 'Green' },
+                  { value: '#1a1a1a', label: 'Mono' },
+                ]}
+              />
+            </TweakSection>
+
+            <TweakSection label="Annotazioni">
+              <TweakToggle
+                value={tweaks.showAnnotations}
+                onChange={(v) => setTweak('showAnnotations', v)}
+                label="Mostra post-it"
+              />
+            </TweakSection>
+          </TweaksPanel>
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AirportParty — Hi-fi directions</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; background: #f0f0f0; }
+    * { box-sizing: border-box; }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" src="design-canvas.jsx"></script>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="hifi-tokens.jsx"></script>
+  <script type="text/babel" src="hifi-screens.jsx"></script>
+  <script type="text/babel" src="hifi-screens-all.jsx"></script>
+
+  <script type="text/babel" data-presets="env,react">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "direction": "cielo"
+    }/*EDITMODE-END*/;
+
+    function App() {
+      const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+      const t = THEMES.cielo;
+
+      return (
+        <>
+          <DesignCanvas>
+            {/* ═══ Flusso principale ═══ */}
+            <DCSection
+              id="main-flow"
+              title="Flusso principale · Cielo"
+              subtitle="00 → 01 → 02 → 03A/03B → 04 → 04b → 05"
+            >
+              <DCArtboard id="s00" label="00 · Aeroporto" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="00 Aeroporto"><HF_S00 theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="s01" label="01 · Timeline" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="01 Timeline"><HF_S01 theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="s02" label="02 · Dettaglio slot" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="02 Dettaglio"><HF_S02 theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="s03a" label="03A · Slot info · loggato" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="03A Loggato"><HF_S03A theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="s03b" label="03B · Registrazione + slot · guest" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="03B Guest"><HF_S03B theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="s04" label="04 · Countdown chat" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="04 Countdown"><HF_S04 theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="s04b" label="04b · Chat ready" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="04b Chat ready"><HF_S04b theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="s05" label="05 · Group chat" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="05 Chat"><HF_S05 theme={t} /></div>
+              </DCArtboard>
+            </DCSection>
+
+            {/* ═══ Auth ═══ */}
+            <DCSection
+              id="auth"
+              title="Auth · Login e Registrazione"
+              subtitle="A0 Splash → A1 Login → A2 Signup → A3 Forgot → A4 Profile"
+            >
+              <DCArtboard id="a0" label="A0 · Splash" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="A0 Splash"><HF_A0 theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="a1" label="A1 · Login" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="A1 Login"><HF_A1 theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="a2" label="A2 · Registrazione" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="A2 Signup"><HF_A2 theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="a3" label="A3 · Password dimenticata" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="A3 Forgot"><HF_A3 theme={t} /></div>
+              </DCArtboard>
+              <DCArtboard id="a4" label="A4 · Profilo" width={HF_PHONE_W + 40} height={HF_PHONE_H + 40}>
+                <div style={{ padding: 20, background: '#e8e8e8' }} data-screen-label="A4 Profile"><HF_A4 theme={t} /></div>
+              </DCArtboard>
+            </DCSection>
+          </DesignCanvas>
+        </>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AirportParty — Design System · Cielo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #3BA0E3;
+      --primary-soft: #E8F4FD;
+      --primary-dark: #2178B5;
+      --accent: #FF8A65;
+      --accent-soft: #FFF0EB;
+      --bg: #FAFCFF;
+      --card: #FFFFFF;
+      --card-alt: #F0F7FF;
+      --ink: #1B2A3D;
+      --ink-soft: #6B8299;
+      --ink-muted: #A3B8CC;
+      --border: #D6E4F0;
+      --success: #34C77B;
+      --error: #E84855;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --radius-pill: 999px;
+      --shadow: 0 2px 12px rgba(59,160,227,0.08);
+      --shadow-lg: 0 8px 32px rgba(59,160,227,0.12);
+      --font: 'Nunito', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    html, body { margin: 0; padding: 0; background: var(--bg); font-family: var(--font); color: var(--ink); }
+    * { box-sizing: border-box; }
+  </style>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel" data-presets="env,react">
+
+    const T = {
+      primary: '#3BA0E3', primarySoft: '#E8F4FD', primaryDark: '#2178B5',
+      accent: '#FF8A65', accentSoft: '#FFF0EB',
+      bg: '#FAFCFF', card: '#FFFFFF', cardAlt: '#F0F7FF',
+      ink: '#1B2A3D', inkSoft: '#6B8299', inkMuted: '#A3B8CC',
+      border: '#D6E4F0', success: '#34C77B', error: '#E84855',
+    };
+
+    const dsPageStyles = {
+      page: { maxWidth: 960, margin: '0 auto', padding: '48px 32px 80px' },
+      header: { marginBottom: 48 },
+      title: { fontSize: 36, fontWeight: 800, letterSpacing: -1, margin: 0, lineHeight: 1 },
+      subtitle: { fontSize: 15, color: T.inkSoft, margin: '8px 0 0', fontWeight: 500 },
+      sectionTitle: { fontSize: 22, fontWeight: 800, letterSpacing: -0.5, margin: '48px 0 20px', borderBottom: `2px solid ${T.border}`, paddingBottom: 10 },
+      subsection: { fontSize: 16, fontWeight: 700, margin: '24px 0 12px', color: T.inkSoft },
+      label: { fontSize: 11, fontWeight: 700, color: T.inkMuted, textTransform: 'uppercase', letterSpacing: 1.2, marginBottom: 6 },
+      row: { display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 20 },
+      card: { background: T.card, border: `1.5px solid ${T.border}`, borderRadius: 20, padding: 20, boxShadow: '0 2px 12px rgba(59,160,227,0.08)' },
+    };
+
+    // ═══ COLOR SWATCH ═══
+    function Swatch({ color, name, token }) {
+      return (
+        <div style={{ width: 120, textAlign: 'center' }}>
+          <div style={{
+            width: 80, height: 80, borderRadius: 16, background: color, margin: '0 auto 8px',
+            border: `1.5px solid ${T.border}`, boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+          }} />
+          <div style={{ fontSize: 13, fontWeight: 700 }}>{name}</div>
+          <div style={{ fontSize: 11, color: T.inkMuted, fontFamily: "'JetBrains Mono', monospace" }}>{color}</div>
+          {token && <div style={{ fontSize: 10, color: T.inkMuted }}>{token}</div>}
+        </div>
+      );
+    }
+
+    // ═══ COMPONENT DEMOS ═══
+    function DemoBtn({ children, primary, small }) {
+      return (
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+          padding: small ? '8px 16px' : '14px 24px',
+          background: primary ? T.primary : 'transparent',
+          color: primary ? '#fff' : T.ink,
+          border: primary ? 'none' : `1.5px solid ${T.border}`,
+          borderRadius: 999, fontSize: small ? 13 : 15, fontWeight: 700,
+          boxShadow: primary ? '0 2px 12px rgba(59,160,227,0.08)' : 'none',
+        }}>
+          {children}
+        </div>
+      );
+    }
+
+    function DemoField({ label, placeholder, icon, value }) {
+      return (
+        <div style={{ width: '100%', maxWidth: 340 }}>
+          {label && <div style={{ ...dsPageStyles.label }}>{label}</div>}
+          <div style={{
+            border: `1.5px solid ${T.border}`, borderRadius: 20, padding: '13px 16px',
+            background: T.card, display: 'flex', alignItems: 'center', gap: 10,
+            fontSize: 15, color: value ? T.ink : T.inkMuted,
+            boxShadow: '0 2px 12px rgba(59,160,227,0.08)',
+          }}>
+            {icon && <span style={{ fontSize: 16, width: 20, textAlign: 'center' }}>{icon}</span>}
+            <span style={{ fontWeight: value ? 600 : 400 }}>{value || placeholder}</span>
+          </div>
+        </div>
+      );
+    }
+
+    function DemoTag({ children, filled }) {
+      return (
+        <span style={{
+          display: 'inline-flex', alignItems: 'center',
+          padding: '5px 12px',
+          border: filled ? 'none' : `1.5px solid ${T.border}`,
+          borderRadius: 999,
+          background: filled ? T.primarySoft : 'transparent',
+          color: filled ? T.primaryDark : T.inkSoft,
+          fontSize: 12, fontWeight: 600,
+        }}>{children}</span>
+      );
+    }
+
+    function DemoAvatar({ init, color, size = 36 }) {
+      return (
+        <div style={{
+          width: size, height: size, borderRadius: '50%', background: color,
+          border: `2px solid ${T.card}`, boxShadow: `0 0 0 1px ${T.border}`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: size * 0.42, fontWeight: 700, color: T.ink,
+        }}>{init}</div>
+      );
+    }
+
+    function DemoSlotCard({ time, going, highlight }) {
+      return (
+        <div style={{
+          border: `1.5px solid ${highlight ? T.primary : T.border}`,
+          borderRadius: 20, padding: '12px 14px',
+          background: highlight ? T.primarySoft : T.card,
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+          boxShadow: '0 2px 12px rgba(59,160,227,0.08)', width: '100%', maxWidth: 340,
+        }}>
+          <div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 18, fontWeight: 700, lineHeight: 1 }}>{time}</div>
+            <div style={{ fontSize: 12, fontWeight: 600, color: T.inkSoft, marginTop: 4 }}>{going} persone</div>
+          </div>
+          <DemoBtn small primary={highlight}>{highlight ? '✓ joined' : 'join'}</DemoBtn>
+        </div>
+      );
+    }
+
+    function DemoPersonRow({ init, name, dest, note, color }) {
+      return (
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 10,
+          border: `1.5px solid ${T.border}`, borderRadius: 12, padding: '8px 12px',
+          background: T.card, width: '100%', maxWidth: 340,
+        }}>
+          <DemoAvatar init={init} color={color} size={32} />
+          <div style={{ flex: 1 }}>
+            <div style={{ fontSize: 14, fontWeight: 700, lineHeight: 1 }}>{name}</div>
+            <div style={{ fontSize: 11, color: T.inkSoft, fontWeight: 500, marginTop: 2 }}>
+              → {dest}{note ? ` · ${note}` : ''}
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // ═══ MAIN PAGE ═══
+    function DesignSystemPage() {
+      const s = dsPageStyles;
+      return (
+        <div style={s.page}>
+          {/* Header */}
+          <div style={s.header}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+              <span style={{ fontSize: 22, fontWeight: 800, letterSpacing: -0.8 }}>
+                airport<span style={{ color: T.primary }}>party</span>
+              </span>
+              <DemoTag filled>Design System</DemoTag>
+            </div>
+            <h1 style={s.title}>Design System <span style={{ color: T.primary }}>· Cielo</span></h1>
+            <p style={s.subtitle}>Direzione visiva scelta · Azzurro cielo · Nunito · Playful & friendly</p>
+          </div>
+
+          {/* ═══ COLORS ═══ */}
+          <h2 style={s.sectionTitle}>Colori</h2>
+
+          <h3 style={s.subsection}>Primari</h3>
+          <div style={s.row}>
+            <Swatch color={T.primary} name="Primary" token="--primary" />
+            <Swatch color={T.primarySoft} name="Primary Soft" token="--primary-soft" />
+            <Swatch color={T.primaryDark} name="Primary Dark" token="--primary-dark" />
+          </div>
+
+          <h3 style={s.subsection}>Accent</h3>
+          <div style={s.row}>
+            <Swatch color={T.accent} name="Accent" token="--accent" />
+            <Swatch color={T.accentSoft} name="Accent Soft" token="--accent-soft" />
+          </div>
+
+          <h3 style={s.subsection}>Superfici</h3>
+          <div style={s.row}>
+            <Swatch color={T.bg} name="Background" token="--bg" />
+            <Swatch color={T.card} name="Card" token="--card" />
+            <Swatch color={T.cardAlt} name="Card Alt" token="--card-alt" />
+          </div>
+
+          <h3 style={s.subsection}>Testo</h3>
+          <div style={s.row}>
+            <Swatch color={T.ink} name="Ink" token="--ink" />
+            <Swatch color={T.inkSoft} name="Ink Soft" token="--ink-soft" />
+            <Swatch color={T.inkMuted} name="Ink Muted" token="--ink-muted" />
+          </div>
+
+          <h3 style={s.subsection}>Feedback</h3>
+          <div style={s.row}>
+            <Swatch color={T.success} name="Success" token="--success" />
+            <Swatch color={T.error} name="Error" token="--error" />
+            <Swatch color={T.border} name="Border" token="--border" />
+          </div>
+
+          {/* ═══ TYPOGRAPHY ═══ */}
+          <h2 style={s.sectionTitle}>Tipografia</h2>
+          <div style={{ ...s.card, marginBottom: 20 }}>
+            <div style={s.label}>Font primario</div>
+            <div style={{ fontSize: 20, fontWeight: 700, marginBottom: 12 }}>Nunito — Sans-serif umanista</div>
+            {[
+              { w: 800, s: 34, l: 'Heading XL · 34/800' },
+              { w: 800, s: 22, l: 'Heading L · 22/800' },
+              { w: 700, s: 16, l: 'Heading M · 16/700' },
+              { w: 600, s: 15, l: 'Body · 15/600' },
+              { w: 500, s: 13, l: 'Body Small · 13/500' },
+              { w: 500, s: 11, l: 'Caption · 11/500' },
+            ].map((t, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 16, marginBottom: 8, borderBottom: `1px solid ${T.border}`, paddingBottom: 8 }}>
+                <span style={{ fontSize: t.s, fontWeight: t.w, letterSpacing: t.s > 20 ? -0.8 : -0.2 }}>
+                  AirportParty
+                </span>
+                <span style={{ fontSize: 11, color: T.inkMuted, fontFamily: "'JetBrains Mono', monospace", whiteSpace: 'nowrap' }}>{t.l}</span>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ ...s.card }}>
+            <div style={s.label}>Font mono</div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 18, fontWeight: 700, marginBottom: 8 }}>
+              JetBrains Mono — orari, codici, numeri
+            </div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 14 }}>
+              MXP · 13:30 · 14:00 · FCO · 15:30
+            </div>
+          </div>
+
+          {/* ═══ SPACING & RADII ═══ */}
+          <h2 style={s.sectionTitle}>Spacing & Radii</h2>
+          <div style={{ ...s.card, marginBottom: 20 }}>
+            <div style={s.label}>Border radius</div>
+            <div style={s.row}>
+              {[
+                { r: 12, l: 'Small · 12px' },
+                { r: 20, l: 'Default · 20px' },
+                { r: 999, l: 'Pill · 999px' },
+              ].map((b, i) => (
+                <div key={i} style={{ textAlign: 'center' }}>
+                  <div style={{
+                    width: 80, height: 52, borderRadius: b.r, border: `2px solid ${T.primary}`,
+                    background: T.primarySoft, marginBottom: 6,
+                  }} />
+                  <div style={{ fontSize: 11, color: T.inkSoft, fontFamily: "'JetBrains Mono', monospace" }}>{b.l}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={s.card}>
+            <div style={s.label}>Ombre</div>
+            <div style={s.row}>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ width: 100, height: 60, borderRadius: 16, background: T.card, boxShadow: '0 2px 12px rgba(59,160,227,0.08)', marginBottom: 6 }} />
+                <div style={{ fontSize: 11, color: T.inkSoft }}>shadow</div>
+              </div>
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ width: 100, height: 60, borderRadius: 16, background: T.card, boxShadow: '0 8px 32px rgba(59,160,227,0.12)', marginBottom: 6 }} />
+                <div style={{ fontSize: 11, color: T.inkSoft }}>shadow-lg</div>
+              </div>
+            </div>
+          </div>
+
+          {/* ═══ COMPONENTS ═══ */}
+          <h2 style={s.sectionTitle}>Componenti</h2>
+
+          <h3 style={s.subsection}>Bottoni</h3>
+          <div style={s.row}>
+            <DemoBtn primary>Primary CTA</DemoBtn>
+            <DemoBtn>Secondary</DemoBtn>
+            <DemoBtn primary small>Small Primary</DemoBtn>
+            <DemoBtn small>Small Secondary</DemoBtn>
+          </div>
+
+          <h3 style={s.subsection}>Campi input</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
+            <DemoField label="aeroporto" placeholder="Cerca città o codice…" icon="🔍" />
+            <DemoField label="email" value="marco@email.com" icon="✉" />
+            <DemoField label="password" placeholder="Almeno 8 caratteri" icon="🔒" />
+          </div>
+
+          <h3 style={s.subsection}>Tag / Chip</h3>
+          <div style={s.row}>
+            <DemoTag>MXP</DemoTag>
+            <DemoTag>FCO</DemoTag>
+            <DemoTag filled>oggi ✓</DemoTag>
+            <DemoTag filled>✓ sei dentro</DemoTag>
+            <DemoTag>guest</DemoTag>
+          </div>
+
+          <h3 style={s.subsection}>Avatar</h3>
+          <div style={s.row}>
+            <DemoAvatar init="M" color="#FFD5B8" />
+            <DemoAvatar init="L" color="#C9E4FF" />
+            <DemoAvatar init="A" color="#FFE2EC" />
+            <DemoAvatar init="S" color="#D8F5C7" />
+            <DemoAvatar init="G" color="#E8D5FF" />
+            <DemoAvatar init="T" color="#FFF3B8" />
+          </div>
+          <div style={s.label}>Avatar colors</div>
+          <div style={s.row}>
+            <Swatch color="#FFD5B8" name="Peach" />
+            <Swatch color="#C9E4FF" name="Sky" />
+            <Swatch color="#FFE2EC" name="Pink" />
+            <Swatch color="#D8F5C7" name="Mint" />
+            <Swatch color="#E8D5FF" name="Lavender" />
+            <Swatch color="#FFF3B8" name="Lemon" />
+          </div>
+
+          <h3 style={s.subsection}>Slot Card</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 20 }}>
+            <DemoSlotCard time="13:00" going={2} />
+            <DemoSlotCard time="13:30" going={5} highlight />
+            <DemoSlotCard time="14:00" going={3} />
+          </div>
+
+          <h3 style={s.subsection}>Person Row</h3>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 20 }}>
+            <DemoPersonRow init="M" name="Marco" dest="BCN" note="caffè pre-volo?" color="#FFD5B8" />
+            <DemoPersonRow init="L" name="Laura" dest="AMS" note="arrivo presto" color="#C9E4FF" />
+            <DemoPersonRow init="A" name="Alessandro" dest="LHR" note="birra!" color="#FFE2EC" />
+          </div>
+
+          {/* ═══ ICONS ═══ */}
+          <h2 style={s.sectionTitle}>Iconografia</h2>
+          <div style={s.card}>
+            <div style={s.label}>Stile: outline sottili · strokeWidth 2 · strokeLinecap round</div>
+            <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', marginTop: 12 }}>
+              {[
+                { name: 'Back', d: <><line x1="19" y1="12" x2="5" y2="12" /><polyline points="12 19 5 12 12 5" /></> },
+                { name: 'Search', d: <><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></> },
+                { name: 'Edit', d: <><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></> },
+                { name: 'Send', d: <><line x1="22" y1="2" x2="11" y2="13" /><polygon points="22 2 15 22 11 13 2 9 22 2" /></> },
+                { name: 'User', d: <><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></> },
+                { name: 'Clock', d: <><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></> },
+              ].map((icon, i) => (
+                <div key={i} style={{ textAlign: 'center' }}>
+                  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke={T.ink} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    {icon.d}
+                  </svg>
+                  <div style={{ fontSize: 10, color: T.inkMuted, marginTop: 4 }}>{icon.name}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<DesignSystemPage />);
+  </script>
+</body>
+</html>

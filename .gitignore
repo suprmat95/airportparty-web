@@ -1,0 +1,31 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Claude Code local config + memory (machine-specific)
+.claude/
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+
+# Env files — never commit secrets
+.env
+.env.local
+.env.*.local
+
+# Build artifacts (also covered by web/.gitignore but listed for safety)
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+
+# Vercel
+.vercel
