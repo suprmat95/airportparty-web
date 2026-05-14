@@ -24,7 +24,7 @@ export function DesktopNavBar({ active = null }: Props) {
   return (
     <header className="h-14 border-b border-line bg-card">
       <div className="mx-auto flex h-full max-w-[1120px] items-center justify-between px-10">
-        <Link href={user ? '/airport' : '/'} className="flex items-center">
+        <Link href="/airport" className="flex items-center">
           <Wordmark size={22} />
         </Link>
 

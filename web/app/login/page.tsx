@@ -90,7 +90,7 @@ function LoginPageContent() {
   return (
     <>
       <MobileShell>
-        <NavBar back="/" />
+        <NavBar back="/airport" />
 
         <h1 className="mb-1 text-[28px] font-extrabold tracking-tighter text-ink">
           bentornato
@@ -115,7 +115,7 @@ function LoginPageContent() {
       <main className="hidden min-h-screen items-center justify-center bg-bg px-6 py-10 lg:flex">
         <div className="w-full max-w-[420px]">
           <div className="mb-6 text-center">
-            <Link href="/">
+            <Link href="/airport">
               <Wordmark size={24} />
             </Link>
           </div>
