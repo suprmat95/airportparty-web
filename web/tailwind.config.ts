@@ -1,57 +1,52 @@
 import type { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: [
-    './app/**/*.{ts,tsx}',
-    './components/**/*.{ts,tsx}',
-  ],
+  content: ['./app/**/*.{ts,tsx}', './components/**/*.{ts,tsx}'],
   theme: {
     extend: {
       colors: {
         primary: {
-          DEFAULT: '#3BA0E3',
-          soft: '#E8F4FD',
-          dark: '#2178B5',
+          DEFAULT: '#2563EB',
+          soft: '#EFF6FF',
+          dark: '#1D4ED8',
         },
-        accent: {
-          DEFAULT: '#FF8A65',
-          soft: '#FFF0EB',
+        warning: {
+          DEFAULT: '#D97706',
+          soft: '#FFFBEB',
         },
-        bg: '#FAFCFF',
+        bg: '#F8FAFC',
         card: {
           DEFAULT: '#FFFFFF',
-          alt: '#F0F7FF',
+          alt: '#F1F5F9',
         },
         ink: {
-          DEFAULT: '#1B2A3D',
-          soft: '#6B8299',
-          muted: '#A3B8CC',
+          DEFAULT: '#0F172A',
+          soft: '#475569',
+          muted: '#94A3B8',
         },
-        line: '#D6E4F0',
-        success: '#34C77B',
-        error: '#E84855',
+        line: '#E2E8F0',
+        success: '#16A34A',
+        error: '#DC2626',
       },
       borderRadius: {
-        DEFAULT: '20px',
-        sm: '12px',
+        DEFAULT: '10px',
+        sm: '8px',
         pill: '999px',
       },
       boxShadow: {
-        DEFAULT: '0 2px 12px rgba(59,160,227,0.08)',
-        lg: '0 8px 32px rgba(59,160,227,0.12)',
+        DEFAULT: 'none',
+        lg: '0 8px 24px rgba(15, 23, 42, 0.08)',
       },
       fontFamily: {
-        sans: ['var(--font-nunito)', 'system-ui', 'sans-serif'],
+        sans: ['var(--font-inter)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-jetbrains)', 'ui-monospace', 'monospace'],
       },
       letterSpacing: {
-        tightest: '-0.8px',
-        tighter: '-0.5px',
-        tight: '-0.2px',
-        label: '1.2px',
+        tight: '-0.4px',
+        label: '0.6px',
       },
       borderColor: {
-        DEFAULT: '#D6E4F0',
+        DEFAULT: '#E2E8F0',
       },
     },
   },

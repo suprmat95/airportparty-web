@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { Nunito, JetBrains_Mono } from 'next/font/google';
+import { Inter, JetBrains_Mono } from 'next/font/google';
 import { AuthProvider } from '@/components/providers/AuthProvider';
 import './globals.css';
 
-const nunito = Nunito({
+const inter = Inter({
   subsets: ['latin'],
-  weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-nunito',
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-inter',
   display: 'swap',
 });
 
@@ -26,12 +26,12 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
-  themeColor: '#3BA0E3',
+  themeColor: '#2563EB',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="it" className={`${nunito.variable} ${jetbrainsMono.variable}`}>
+    <html lang="it" className={`${inter.variable} ${jetbrainsMono.variable}`}>
       <body>
         <AuthProvider>{children}</AuthProvider>
       </body>

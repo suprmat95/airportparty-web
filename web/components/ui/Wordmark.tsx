@@ -8,7 +8,7 @@ export function Wordmark({ size = 22, className }: Props) {
     <span
       className={className}
       style={{
-        fontFamily: 'var(--font-nunito), system-ui, sans-serif',
+        fontFamily: 'var(--font-inter), system-ui, sans-serif',
         fontSize: size,
         fontWeight: 800,
         color: 'var(--ink)',

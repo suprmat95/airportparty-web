@@ -3,25 +3,24 @@
 @tailwind utilities;
 
 :root {
-  --primary: #3BA0E3;
-  --primary-soft: #E8F4FD;
-  --primary-dark: #2178B5;
-  --accent: #FF8A65;
-  --accent-soft: #FFF0EB;
-  --bg: #FAFCFF;
-  --card: #FFFFFF;
-  --card-alt: #F0F7FF;
-  --ink: #1B2A3D;
-  --ink-soft: #6B8299;
-  --ink-muted: #A3B8CC;
-  --line: #D6E4F0;
-  --success: #34C77B;
-  --error: #E84855;
-  --radius: 20px;
-  --radius-sm: 12px;
+  --primary: #2563eb;
+  --primary-soft: #eff6ff;
+  --primary-dark: #1d4ed8;
+  --warning: #d97706;
+  --warning-soft: #fffbeb;
+  --bg: #f8fafc;
+  --card: #ffffff;
+  --card-alt: #f1f5f9;
+  --ink: #0f172a;
+  --ink-soft: #475569;
+  --ink-muted: #94a3b8;
+  --line: #e2e8f0;
+  --success: #16a34a;
+  --error: #dc2626;
+  --radius: 10px;
+  --radius-sm: 8px;
   --radius-pill: 999px;
-  --shadow: 0 2px 12px rgba(59, 160, 227, 0.08);
-  --shadow-lg: 0 8px 32px rgba(59, 160, 227, 0.12);
+  --shadow-lg: 0 8px 24px rgba(15, 23, 42, 0.08);
 }
 
 html,
@@ -33,14 +32,14 @@ body {
 }
 
 body {
-  font-family: var(--font-nunito), system-ui, sans-serif;
-  font-weight: 500;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  font-weight: 400;
 }
 
 .label-cap {
   font-size: 11px;
-  font-weight: 700;
-  color: var(--ink-muted);
+  font-weight: 600;
+  color: var(--ink-soft);
   text-transform: uppercase;
-  letter-spacing: 1.2px;
+  letter-spacing: 0.6px;
 }
