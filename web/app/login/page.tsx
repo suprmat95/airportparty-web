@@ -50,7 +50,7 @@ function LoginPageContent() {
   const form = (
     <form onSubmit={onSubmit} className="space-y-1">
       <InputField
-        label="email"
+        label="Email"
         icon={<Mail className="h-5 w-5" strokeWidth={2} />}
         type="email"
         placeholder="tu@email.com"
@@ -58,7 +58,7 @@ function LoginPageContent() {
         onChange={(e) => setEmail(e.target.value)}
       />
       <InputField
-        label="password"
+        label="Password"
         icon={<Lock className="h-5 w-5" strokeWidth={2} />}
         type="password"
         placeholder="la tua password"
@@ -71,18 +71,18 @@ function LoginPageContent() {
           href="/forgot-password"
           className="text-[12px] font-semibold text-primary underline"
         >
-          password dimenticata?
+          Password dimenticata?
         </Link>
       </div>
 
       {error && (
-        <div className="mb-2 rounded-sm border-[1.5px] border-error/30 bg-error/10 px-3 py-2 text-[12px] font-semibold text-error">
+        <div className="mb-2 rounded-sm border border-error/30 bg-error/10 px-3 py-2 text-[12px] font-medium text-error">
           {error}
         </div>
       )}
 
       <Button type="submit" variant="primary" fullWidth disabled={submitting}>
-        {submitting ? 'accedo…' : 'accedi'}
+        {submitting ? 'Accesso…' : 'Accedi'}
       </Button>
     </form>
   );
@@ -92,10 +92,10 @@ function LoginPageContent() {
       <MobileShell>
         <NavBar back="/airport" />
 
-        <h1 className="mb-1 text-[28px] font-extrabold tracking-tighter text-ink">
-          bentornato
+        <h1 className="mb-1 text-[28px] font-semibold tracking-tight text-ink">
+          Bentornato
         </h1>
-        <p className="mb-6 text-[14px] font-medium text-ink-soft">
+        <p className="mb-6 text-[14px] font-normal text-ink-soft">
           Accedi per ritrovare i tuoi slot.
         </p>
 
@@ -105,8 +105,8 @@ function LoginPageContent() {
 
         <p className="text-center text-[12px] font-medium text-ink-soft">
           Non hai un account?{' '}
-          <Link href="/signup" className="font-bold text-primary">
-            registrati
+          <Link href="/signup" className="font-semibold text-primary">
+            Registrati
           </Link>
         </p>
       </MobileShell>
@@ -119,19 +119,19 @@ function LoginPageContent() {
               <Wordmark size={24} />
             </Link>
           </div>
-          <div className="rounded-[24px] border border-line bg-card p-8 shadow-lg">
-            <h1 className="mb-1 text-[26px] font-extrabold tracking-tighter text-ink">
-              bentornato
+          <div className="rounded border border-line bg-card p-8 shadow-lg">
+            <h1 className="mb-1 text-[26px] font-semibold tracking-tight text-ink">
+              Bentornato
             </h1>
-            <p className="mb-6 text-[14px] font-medium text-ink-soft">
+            <p className="mb-6 text-[14px] font-normal text-ink-soft">
               Accedi per ritrovare i tuoi slot.
             </p>
             {form}
           </div>
           <p className="mt-5 text-center text-[12px] font-medium text-ink-soft">
             Non hai un account?{' '}
-            <Link href="/signup" className="font-bold text-primary">
-              registrati
+            <Link href="/signup" className="font-semibold text-primary">
+              Registrati
             </Link>
           </p>
         </div>

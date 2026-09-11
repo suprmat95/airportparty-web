@@ -5,6 +5,7 @@ import { useState, type FormEvent } from 'react';
 import { Mail } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
+import { Card } from '@/components/ui/Card';
 import { InputField } from '@/components/ui/InputField';
 import { Button } from '@/components/ui/Button';
 import { Wordmark } from '@/components/ui/Wordmark';
@@ -32,13 +33,13 @@ export default function ForgotPasswordPage() {
   }
 
   const body = sent ? (
-    <div className="rounded-[20px] border-[1.5px] border-primary bg-primary-soft p-4 text-[13px] font-semibold text-primary-dark">
-      ✦ Controlla la tua email — il link scade dopo 1 ora.
-    </div>
+    <Card highlight className="p-4 text-[13px] font-medium text-primary-dark">
+      Controlla la tua email: il link scade dopo 1 ora.
+    </Card>
   ) : (
     <form onSubmit={onSubmit} className="space-y-1">
       <InputField
-        label="email"
+        label="Email"
         icon={<Mail className="h-5 w-5" strokeWidth={2} />}
         type="email"
         placeholder="tu@email.com"
@@ -46,18 +47,18 @@ export default function ForgotPasswordPage() {
         onChange={(e) => setEmail(e.target.value)}
       />
       {error && (
-        <div className="mt-2 rounded-sm border-[1.5px] border-error/30 bg-error/10 px-3 py-2 text-[12px] font-semibold text-error">
+        <div className="mt-2 rounded-sm border border-error/30 bg-error/10 px-3 py-2 text-[12px] font-medium text-error">
           {error}
         </div>
       )}
       <Button type="submit" variant="primary" fullWidth disabled={submitting} className="mt-3">
-        {submitting ? 'invio…' : 'invia link'}
+        {submitting ? 'Invio…' : 'Invia link'}
       </Button>
     </form>
   );
 
   const securityNote = (
-    <div className="mt-4 rounded-sm border-[1.5px] border-line bg-card-alt px-3 py-2 text-[11px] font-medium text-ink-soft">
+    <div className="mt-4 rounded-sm border border-line bg-card-alt px-3 py-2 text-[11px] font-medium text-ink-soft">
       Il link scade dopo 1 ora per ragioni di sicurezza.
     </div>
   );
@@ -67,10 +68,10 @@ export default function ForgotPasswordPage() {
       <MobileShell>
         <NavBar back="/login" />
 
-        <h1 className="mb-1 text-[28px] font-extrabold tracking-tighter text-ink">
-          reset password
+        <h1 className="mb-1 text-[28px] font-semibold tracking-tight text-ink">
+          Reimposta la password
         </h1>
-        <p className="mb-6 text-[14px] font-medium text-ink-soft">
+        <p className="mb-6 text-[14px] font-normal text-ink-soft">
           Ti invieremo un link per impostarne una nuova.
         </p>
 
@@ -81,8 +82,8 @@ export default function ForgotPasswordPage() {
 
         <p className="text-center text-[12px] font-medium text-ink-soft">
           Hai ricordato?{' '}
-          <Link href="/login" className="font-bold text-primary">
-            torna al login
+          <Link href="/login" className="font-semibold text-primary">
+            Torna al login
           </Link>
         </p>
       </MobileShell>
@@ -95,11 +96,11 @@ export default function ForgotPasswordPage() {
               <Wordmark size={24} />
             </Link>
           </div>
-          <div className="rounded-[24px] border border-line bg-card p-8 shadow-lg">
-            <h1 className="mb-1 text-[26px] font-extrabold tracking-tighter text-ink">
-              reset password
+          <div className="rounded border border-line bg-card p-8 shadow-lg">
+            <h1 className="mb-1 text-[26px] font-semibold tracking-tight text-ink">
+              Reimposta la password
             </h1>
-            <p className="mb-6 text-[14px] font-medium text-ink-soft">
+            <p className="mb-6 text-[14px] font-normal text-ink-soft">
               Ti invieremo un link per impostarne una nuova.
             </p>
             {body}
@@ -107,8 +108,8 @@ export default function ForgotPasswordPage() {
           </div>
           <p className="mt-5 text-center text-[12px] font-medium text-ink-soft">
             Hai ricordato?{' '}
-            <Link href="/login" className="font-bold text-primary">
-              torna al login
+            <Link href="/login" className="font-semibold text-primary">
+              Torna al login
             </Link>
           </p>
         </div>

@@ -51,14 +51,14 @@ export default function SignupPage() {
   const form = (
     <form onSubmit={onSubmit}>
       <InputField
-        label="nome"
+        label="Nome"
         icon={<User className="h-5 w-5" strokeWidth={2} />}
         placeholder="Come ti chiami?"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <InputField
-        label="email"
+        label="Email"
         icon={<Mail className="h-5 w-5" strokeWidth={2} />}
         type="email"
         placeholder="tu@email.com"
@@ -66,7 +66,7 @@ export default function SignupPage() {
         onChange={(e) => setEmail(e.target.value)}
       />
       <InputField
-        label="password"
+        label="Password"
         icon={<Lock className="h-5 w-5" strokeWidth={2} />}
         type="password"
         placeholder="min. 6 caratteri"
@@ -74,7 +74,7 @@ export default function SignupPage() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <InputField
-        label="conferma password"
+        label="Conferma password"
         icon={<Lock className="h-5 w-5" strokeWidth={2} />}
         type="password"
         placeholder="ripeti la password"
@@ -93,13 +93,13 @@ export default function SignupPage() {
       </label>
 
       {error && (
-        <div className="mb-3 rounded-sm border-[1.5px] border-error/30 bg-error/10 px-3 py-2 text-[12px] font-semibold text-error">
+        <div className="mb-3 rounded-sm border border-error/30 bg-error/10 px-3 py-2 text-[12px] font-medium text-error">
           {error}
         </div>
       )}
 
       <Button type="submit" variant="primary" fullWidth disabled={submitting}>
-        {submitting ? 'creo account…' : 'Crea account ✈'}
+        {submitting ? 'Creazione…' : 'Crea account'}
       </Button>
     </form>
   );
@@ -109,10 +109,10 @@ export default function SignupPage() {
       <MobileShell>
         <NavBar back="/airport" />
 
-        <h1 className="mb-1 text-[28px] font-extrabold tracking-tighter text-ink">
+        <h1 className="mb-1 text-[28px] font-semibold tracking-tight text-ink">
           Crea il tuo account
         </h1>
-        <p className="mb-6 text-[14px] font-medium text-ink-soft">
+        <p className="mb-6 text-[14px] font-normal text-ink-soft">
           Bastano 30 secondi.
         </p>
 
@@ -122,8 +122,8 @@ export default function SignupPage() {
 
         <p className="text-center text-[12px] font-medium text-ink-soft">
           Hai già un account?{' '}
-          <Link href="/login" className="font-bold text-primary">
-            accedi
+          <Link href="/login" className="font-semibold text-primary">
+            Accedi
           </Link>
         </p>
       </MobileShell>
@@ -136,19 +136,19 @@ export default function SignupPage() {
               <Wordmark size={24} />
             </Link>
           </div>
-          <div className="rounded-[24px] border border-line bg-card p-8 shadow-lg">
-            <h1 className="mb-1 text-[26px] font-extrabold tracking-tighter text-ink">
+          <div className="rounded border border-line bg-card p-8 shadow-lg">
+            <h1 className="mb-1 text-[26px] font-semibold tracking-tight text-ink">
               Crea il tuo account
             </h1>
-            <p className="mb-6 text-[14px] font-medium text-ink-soft">
+            <p className="mb-6 text-[14px] font-normal text-ink-soft">
               Bastano 30 secondi.
             </p>
             {form}
           </div>
           <p className="mt-5 text-center text-[12px] font-medium text-ink-soft">
             Hai già un account?{' '}
-            <Link href="/login" className="font-bold text-primary">
-              accedi
+            <Link href="/login" className="font-semibold text-primary">
+              Accedi
             </Link>
           </p>
         </div>

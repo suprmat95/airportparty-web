@@ -6,6 +6,7 @@ import { useState, type FormEvent } from 'react';
 import { Lock } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
+import { Card } from '@/components/ui/Card';
 import { InputField } from '@/components/ui/InputField';
 import { Button } from '@/components/ui/Button';
 import { Wordmark } from '@/components/ui/Wordmark';
@@ -46,13 +47,13 @@ export default function ResetPasswordPage() {
   }
 
   const body = done ? (
-    <div className="rounded-[20px] border-[1.5px] border-primary bg-primary-soft p-4 text-[13px] font-semibold text-primary-dark">
-      ✦ Password aggiornata. Ti stiamo portando dentro…
-    </div>
+    <Card highlight className="p-4 text-[13px] font-medium text-primary-dark">
+      Password aggiornata. Ti stiamo portando dentro…
+    </Card>
   ) : (
     <form onSubmit={onSubmit} className="space-y-1">
       <InputField
-        label="nuova password"
+        label="Nuova password"
         icon={<Lock className="h-5 w-5" strokeWidth={2} />}
         type="password"
         placeholder="min. 6 caratteri"
@@ -60,7 +61,7 @@ export default function ResetPasswordPage() {
         onChange={(e) => setPassword(e.target.value)}
       />
       <InputField
-        label="conferma password"
+        label="Conferma password"
         icon={<Lock className="h-5 w-5" strokeWidth={2} />}
         type="password"
         placeholder="ripeti la password"
@@ -68,12 +69,12 @@ export default function ResetPasswordPage() {
         onChange={(e) => setConfirm(e.target.value)}
       />
       {error && (
-        <div className="mt-2 rounded-sm border-[1.5px] border-error/30 bg-error/10 px-3 py-2 text-[12px] font-semibold text-error">
+        <div className="mt-2 rounded-sm border border-error/30 bg-error/10 px-3 py-2 text-[12px] font-medium text-error">
           {error}
         </div>
       )}
       <Button type="submit" variant="primary" fullWidth disabled={submitting} className="mt-3">
-        {submitting ? 'aggiorno…' : 'imposta password'}
+        {submitting ? 'Aggiornamento…' : 'Imposta password'}
       </Button>
     </form>
   );
@@ -83,10 +84,10 @@ export default function ResetPasswordPage() {
       <MobileShell>
         <NavBar back="/login" />
 
-        <h1 className="mb-1 text-[28px] font-extrabold tracking-tighter text-ink">
-          nuova password
+        <h1 className="mb-1 text-[28px] font-semibold tracking-tight text-ink">
+          Nuova password
         </h1>
-        <p className="mb-6 text-[14px] font-medium text-ink-soft">
+        <p className="mb-6 text-[14px] font-normal text-ink-soft">
           Imposta una password sicura per il tuo account.
         </p>
 
@@ -95,8 +96,8 @@ export default function ResetPasswordPage() {
         <div className="flex-1" />
 
         <p className="text-center text-[12px] font-medium text-ink-soft">
-          <Link href="/login" className="font-bold text-primary">
-            torna al login
+          <Link href="/login" className="font-semibold text-primary">
+            Torna al login
           </Link>
         </p>
       </MobileShell>
@@ -108,18 +109,18 @@ export default function ResetPasswordPage() {
               <Wordmark size={24} />
             </Link>
           </div>
-          <div className="rounded-[24px] border border-line bg-card p-8 shadow-lg">
-            <h1 className="mb-1 text-[26px] font-extrabold tracking-tighter text-ink">
-              nuova password
+          <div className="rounded border border-line bg-card p-8 shadow-lg">
+            <h1 className="mb-1 text-[26px] font-semibold tracking-tight text-ink">
+              Nuova password
             </h1>
-            <p className="mb-6 text-[14px] font-medium text-ink-soft">
+            <p className="mb-6 text-[14px] font-normal text-ink-soft">
               Imposta una password sicura per il tuo account.
             </p>
             {body}
           </div>
           <p className="mt-5 text-center text-[12px] font-medium text-ink-soft">
-            <Link href="/login" className="font-bold text-primary">
-              torna al login
+            <Link href="/login" className="font-semibold text-primary">
+              Torna al login
             </Link>
           </p>
         </div>
