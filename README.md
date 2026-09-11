@@ -79,7 +79,7 @@ ever want to push it — would have a sensible path to growth.
 | Layer        | Technology                                            |
 |--------------|-------------------------------------------------------|
 | Framework    | **Next.js 14** (App Router) + React 18 + TypeScript   |
-| Styling      | **Tailwind CSS** (the "Cielo" design system)          |
+| Styling      | **Tailwind CSS** (clean product design system: Inter, slate + blue) |
 | Backend/Auth | **Supabase** (Postgres + Auth + Realtime + RLS)       |
 | Realtime     | Supabase Realtime (live chat and participant counts)  |
 | Icons        | Lucide React                                          |
