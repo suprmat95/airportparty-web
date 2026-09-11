@@ -2,12 +2,13 @@
 
 import { notFound } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { Lock, Send } from 'lucide-react';
+import { ArrowLeft, Lock, Plane, Send } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
 import { DesktopShell } from '@/components/layout/DesktopShell';
 import { AvatarStack } from '@/components/ui/AvatarStack';
 import { Avatar } from '@/components/ui/Avatar';
+import { Card } from '@/components/ui/Card';
 import { ChatBubble } from '@/components/ui/ChatBubble';
 import { Tag } from '@/components/ui/Tag';
 import { buttonClass } from '@/components/ui/Button';
@@ -117,20 +118,18 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
     const opensAt = chatOpensAt(slot.date, slot.startTime);
     const lockedBody = (
       <div className="flex flex-1 flex-col items-center justify-center text-center">
-        <div className="mb-3 inline-flex h-14 w-14 items-center justify-center rounded-pill bg-card-alt">
+        <div className="mb-3 inline-flex h-14 w-14 items-center justify-center rounded bg-card-alt">
           <Lock className="h-6 w-6 text-ink-muted" strokeWidth={2} />
         </div>
-        <h2 className="mb-1 text-[20px] font-extrabold tracking-tighter text-ink">
-          la chat è ancora chiusa
+        <h2 className="mb-1 text-[20px] font-semibold tracking-tight text-ink">
+          La chat è ancora chiusa
         </h2>
         <p className="max-w-[280px] text-[13px] font-medium text-ink-soft">
           Si apre {opensAt.toLocaleString('it-IT', { hour: '2-digit', minute: '2-digit' })}, 3 ore prima del meetup.
         </p>
-        <Link
-          href={`/slot/${slot.id}`}
-          className={buttonClass('secondary', 'md', false, 'mt-5')}
-        >
-          ← torna allo slot
+        <Link href={`/slot/${slot.id}`} className={buttonClass('secondary', 'md', false, 'mt-5')}>
+          <ArrowLeft className="h-4 w-4" strokeWidth={2} />
+          Torna allo slot
         </Link>
       </div>
     );
@@ -158,20 +157,20 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
           right={airport && <Tag variant="filled">{airport.code}</Tag>}
         />
 
-        <div className="mb-3 flex items-center justify-between rounded-[20px] border-[1.5px] border-line bg-card p-3 shadow">
+        <Card className="mb-3 flex items-center justify-between p-3">
           <div>
             <div className="font-mono text-[18px] font-bold leading-none text-ink">
               {slot.startTime}
             </div>
-            <div className="mt-1 text-[11px] font-semibold text-ink-soft">
+            <div className="mt-1 text-[11px] font-medium text-ink-soft">
               {slot.meetingPoint}
             </div>
           </div>
           <AvatarStack items={avatars} size={26} />
-        </div>
+        </Card>
 
-        <div className="mb-3 rounded-sm border-[1.5px] border-primary/30 bg-primary-soft px-3 py-2 text-[12px] font-semibold text-primary-dark">
-          Chat aperta · meetup alle {slot.startTime} al {slot.meetingPoint}
+        <div className="mb-3 rounded-sm border border-primary/30 bg-primary-soft px-3 py-2 text-[12px] font-semibold text-primary-dark">
+          Chat aperta. Meetup alle {slot.startTime} al {slot.meetingPoint}.
         </div>
 
         <div ref={mobileScrollerRef} className="flex-1 space-y-3 overflow-y-auto pb-2">
@@ -191,7 +190,7 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
         <ChatInputBar
           onSend={send}
           disabled={!canSend}
-          placeholder={canSend ? 'scrivi un messaggio…' : 'fai join per scrivere'}
+          placeholder={canSend ? 'Scrivi un messaggio…' : 'Partecipa allo slot per scrivere'}
           variant="mobile"
         />
       </MobileShell>
@@ -200,7 +199,7 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
         <div className="flex flex-1 overflow-hidden">
           <aside className="w-[260px] flex-shrink-0 overflow-y-auto border-r border-line bg-card">
             <div className="border-b border-line p-5">
-              <div className="font-mono text-[28px] font-bold leading-none tracking-tightest text-ink">
+              <div className="font-mono text-[28px] font-bold leading-none tracking-tight text-ink">
                 {slot.startTime}
               </div>
               <div className="mt-2 text-[13px] font-semibold text-ink-soft">
@@ -211,7 +210,7 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
               </div>
             </div>
             <div className="p-5">
-              <div className="label-cap mb-3">partecipanti · {participants.length}</div>
+              <div className="label-cap mb-3">Partecipanti · {participants.length}</div>
               <ul className="space-y-2">
                 {participants.map((p) => (
                   <li key={p.id} className="flex items-center gap-2.5">
@@ -221,15 +220,16 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
                       size={28}
                     />
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-[13px] font-bold text-ink">
+                      <div className="truncate text-[13px] font-semibold text-ink">
                         {p.profile.name}
                         {user && p.userId === user.id && (
                           <span className="ml-1 text-[10px] font-semibold text-primary">(tu)</span>
                         )}
                       </div>
                       {p.destination && (
-                        <div className="truncate text-[11px] font-medium text-ink-soft">
-                          → {p.destination}
+                        <div className="flex items-center gap-1 truncate text-[11px] font-medium text-ink-soft">
+                          <Plane className="h-3 w-3" strokeWidth={2} />
+                          {p.destination}
                         </div>
                       )}
                     </div>
@@ -241,7 +241,7 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
 
           <section className="flex flex-1 flex-col overflow-hidden">
             <div className="border-b border-primary/20 bg-primary-soft px-6 py-3 text-[13px] font-semibold text-primary-dark">
-              Chat aperta · meetup alle {slot.startTime} al {slot.meetingPoint}
+              Chat aperta. Meetup alle {slot.startTime} al {slot.meetingPoint}.
             </div>
 
             <div
@@ -264,7 +264,7 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
             <ChatInputBar
               onSend={send}
               disabled={!canSend}
-              placeholder={canSend ? 'scrivi un messaggio…' : 'fai join per scrivere'}
+              placeholder={canSend ? 'Scrivi un messaggio…' : 'Partecipa allo slot per scrivere'}
               variant="desktop"
             />
           </section>
@@ -307,19 +307,19 @@ function ChatInputBar({
         onSubmit={submit}
         className="sticky bottom-0 -mx-5 mt-3 border-t border-line bg-bg/95 px-5 py-3 backdrop-blur"
       >
-        <div className="flex items-center gap-2 rounded-pill border-[1.5px] border-line bg-card px-4 py-2 shadow">
+        <div className="flex items-center gap-2 rounded border border-line bg-card px-3.5 py-2">
           <input
             value={text}
             onChange={(e) => setText(e.target.value)}
             placeholder={placeholder}
             disabled={disabled || sending}
-            className="flex-1 bg-transparent text-[14px] font-semibold text-ink placeholder:font-medium placeholder:text-ink-muted focus:outline-none disabled:opacity-50"
+            className="flex-1 bg-transparent text-[14px] font-medium text-ink placeholder:font-normal placeholder:text-ink-muted focus:outline-none disabled:opacity-50"
           />
           <button
             type="submit"
             disabled={disabled || sending || !text.trim()}
-            aria-label="invia"
-            className="inline-flex h-9 w-9 items-center justify-center rounded-pill bg-primary text-white transition active:scale-95 disabled:opacity-40"
+            aria-label="Invia"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-sm bg-primary text-white transition active:scale-95 disabled:opacity-40"
           >
             <Send className="h-4 w-4" strokeWidth={2} />
           </button>
@@ -330,20 +330,20 @@ function ChatInputBar({
 
   return (
     <form onSubmit={submit} className="border-t border-line bg-card px-6 py-4">
-      <div className="flex items-center gap-2 rounded-pill border-[1.5px] border-line bg-bg px-4 py-2 shadow">
+      <div className="flex items-center gap-2 rounded border border-line bg-bg px-3.5 py-2">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeholder}
           disabled={disabled || sending}
-          className="flex-1 bg-transparent text-[14px] font-semibold text-ink placeholder:font-medium placeholder:text-ink-muted focus:outline-none disabled:opacity-50"
+          className="flex-1 bg-transparent text-[14px] font-medium text-ink placeholder:font-normal placeholder:text-ink-muted focus:outline-none disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={disabled || sending || !text.trim()}
-          aria-label="invia"
+          aria-label="Invia"
           className={cn(
-            'inline-flex h-9 w-9 items-center justify-center rounded-pill bg-primary text-white transition active:scale-95 disabled:opacity-40'
+            'inline-flex h-9 w-9 items-center justify-center rounded-sm bg-primary text-white transition active:scale-95 disabled:opacity-40'
           )}
         >
           <Send className="h-4 w-4" strokeWidth={2} />

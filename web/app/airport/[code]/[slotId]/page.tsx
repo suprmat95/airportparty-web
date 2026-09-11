@@ -3,11 +3,12 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Clock } from 'lucide-react';
+import { ArrowRight, Clock } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
 import { DesktopShell } from '@/components/layout/DesktopShell';
 import { BackLink } from '@/components/layout/BackLink';
+import { Card } from '@/components/ui/Card';
 import { Tag } from '@/components/ui/Tag';
 import { AvatarStack } from '@/components/ui/AvatarStack';
 import { PersonRow } from '@/components/ui/PersonRow';
@@ -119,19 +120,22 @@ export default function SlotDetailPage({
 
   const cta = joined ? (
     <Link href={`/slot/${slot.id}`} className={buttonClass('primary', 'md', true)}>
-      apri slot →
+      Apri lo slot
+      <ArrowRight className="h-4 w-4" strokeWidth={2} />
     </Link>
   ) : (
     <Link href={`/join/${slot.id}`} className={buttonClass('primary', 'md', true)}>
-      join · entra nel gruppo ✈
+      Partecipa
     </Link>
   );
 
   const peopleList = (
     <ul className="space-y-2">
       {participants.length === 0 && (
-        <li className="rounded-[20px] border-[1.5px] border-dashed border-line bg-card p-4 text-center text-[13px] font-medium text-ink-soft">
-          Ancora nessuno · sii il primo!
+        <li>
+          <Card dashed className="p-4 text-center text-[13px] font-medium text-ink-soft">
+            Ancora nessuno. Sii il primo.
+          </Card>
         </li>
       )}
       {participants.map((p) => (
@@ -157,14 +161,14 @@ export default function SlotDetailPage({
           right={<Tag variant="filled">{airport.code}</Tag>}
         />
 
-        <div className="mb-4 rounded-[20px] border-[1.5px] border-line bg-card p-4 shadow-lg">
+        <Card className="mb-4 p-4">
           <div className="flex items-start justify-between">
             <div>
               <div className="label-cap">{formatDateIT(slot.date === today ? today : slot.date)}</div>
-              <div className="mt-1 font-mono text-[34px] font-bold leading-none tracking-tightest text-ink">
+              <div className="mt-1 font-mono text-[34px] font-bold leading-none tracking-tight text-ink">
                 {slot.startTime}
               </div>
-              <div className="mt-1.5 text-[13px] font-semibold text-ink-soft">
+              <div className="mt-1.5 text-[13px] font-medium text-ink-soft">
                 {airport.name}
               </div>
             </div>
@@ -175,21 +179,21 @@ export default function SlotDetailPage({
               </div>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className="mb-5 rounded-[20px] border-[1.5px] border-line bg-card-alt p-4">
-          <div className="label-cap mb-1">punto ritrovo</div>
-          <div className="text-[15px] font-bold text-ink">{slot.meetingPoint}</div>
+        <Card className="mb-5 bg-card-alt p-4">
+          <div className="label-cap mb-1">Punto di ritrovo</div>
+          <div className="text-[15px] font-semibold text-ink">{slot.meetingPoint}</div>
           <div className="mt-0.5 text-[12px] font-medium text-ink-soft">
             {slot.meetingNote}
           </div>
           <div className="mt-2.5 flex items-center gap-1.5 text-[12px] font-semibold text-ink-soft">
             <Clock className="h-3.5 w-3.5" strokeWidth={2} />
-            finestra di {slot.durationMinutes} min
+            Finestra di {slot.durationMinutes} minuti
           </div>
-        </div>
+        </Card>
 
-        <div className="label-cap mb-2 ml-1">chi c’è</div>
+        <div className="label-cap mb-2 ml-1">Chi c’è</div>
         {peopleList}
 
         <div className="flex-1" />
@@ -209,41 +213,41 @@ export default function SlotDetailPage({
 
           <div className="flex gap-6">
             <section className="flex-1">
-              <div className="rounded-[20px] border border-line bg-card p-6 shadow-lg">
+              <Card className="p-6">
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <div className="label-cap">
                       {formatDateIT(slot.date === today ? today : slot.date)}
                     </div>
-                    <div className="mt-1.5 font-mono text-[40px] font-bold leading-none tracking-tightest text-ink">
+                    <div className="mt-1.5 font-mono text-[40px] font-bold leading-none tracking-tight text-ink">
                       {slot.startTime}
                     </div>
-                    <div className="mt-2 text-[14px] font-semibold text-ink-soft">
+                    <div className="mt-2 text-[14px] font-medium text-ink-soft">
                       {airport.name} ({airport.code})
                     </div>
                   </div>
                   <Tag variant="filled">{airport.code}</Tag>
                 </div>
-              </div>
+              </Card>
 
-              <div className="mt-4 rounded-[20px] border border-line bg-card-alt p-5">
-                <div className="label-cap mb-1">punto ritrovo</div>
-                <div className="text-[17px] font-bold text-ink">{slot.meetingPoint}</div>
+              <Card className="mt-4 bg-card-alt p-5">
+                <div className="label-cap mb-1">Punto di ritrovo</div>
+                <div className="text-[17px] font-semibold text-ink">{slot.meetingPoint}</div>
                 <div className="mt-0.5 text-[13px] font-medium text-ink-soft">
                   {slot.meetingNote}
                 </div>
                 <div className="mt-3 flex items-center gap-1.5 text-[12px] font-semibold text-ink-soft">
                   <Clock className="h-3.5 w-3.5" strokeWidth={2} />
-                  finestra di {slot.durationMinutes} min
+                  Finestra di {slot.durationMinutes} minuti
                 </div>
-              </div>
+              </Card>
 
               <div className="mt-6">{cta}</div>
             </section>
 
             <aside className="w-[300px] flex-shrink-0">
               <div className="mb-2 flex items-center justify-between">
-                <div className="label-cap">chi c’è</div>
+                <div className="label-cap">Chi c’è</div>
                 <span className="text-[11px] font-semibold text-ink-soft">
                   {participants.length} {participants.length === 1 ? 'persona' : 'persone'}
                 </span>
