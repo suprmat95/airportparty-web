@@ -15,7 +15,7 @@ export const InputField = forwardRef<HTMLInputElement, Props>(function InputFiel
       {label && <div className="label-cap mb-1.5 ml-1">{label}</div>}
       <div
         className={cn(
-          'flex items-center gap-2.5 rounded-[20px] border-[1.5px] border-line bg-card px-4 py-3.5 shadow',
+          'flex items-center gap-2.5 rounded border border-line bg-card px-3.5 py-3 transition focus-within:border-primary',
           className
         )}
       >
@@ -26,7 +26,7 @@ export const InputField = forwardRef<HTMLInputElement, Props>(function InputFiel
         )}
         <input
           ref={ref}
-          className="flex-1 bg-transparent text-[15px] font-semibold text-ink placeholder:font-normal placeholder:text-ink-muted focus:outline-none"
+          className="flex-1 bg-transparent text-[15px] font-medium text-ink placeholder:font-normal placeholder:text-ink-muted focus:outline-none"
           {...rest}
         />
       </div>

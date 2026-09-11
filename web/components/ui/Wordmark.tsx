@@ -10,9 +10,9 @@ export function Wordmark({ size = 22, className }: Props) {
       style={{
         fontFamily: 'var(--font-inter), system-ui, sans-serif',
         fontSize: size,
-        fontWeight: 800,
+        fontWeight: 700,
         color: 'var(--ink)',
-        letterSpacing: '-0.8px',
+        letterSpacing: '-0.4px',
         lineHeight: 1,
       }}
     >

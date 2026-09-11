@@ -11,16 +11,16 @@ type Props = ButtonHTMLAttributes<HTMLButtonElement> & {
 };
 
 const base =
-  'inline-flex items-center justify-center gap-1.5 rounded-pill font-bold tracking-tight transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none';
+  'inline-flex items-center justify-center gap-1.5 rounded-sm font-semibold transition active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none';
 
 const variants: Record<ButtonVariant, string> = {
-  primary: 'bg-primary text-white shadow hover:bg-primary-dark',
-  secondary: 'bg-transparent text-ink border-[1.5px] border-line hover:bg-card-alt',
+  primary: 'bg-primary text-white hover:bg-primary-dark',
+  secondary: 'bg-card text-ink border border-line hover:bg-card-alt',
 };
 
 const sizes: Record<ButtonSize, string> = {
-  sm: 'px-4 py-2 text-[13px]',
-  md: 'px-6 py-3.5 text-[15px]',
+  sm: 'px-3.5 py-2 text-[13px]',
+  md: 'px-5 py-3 text-[14px]',
 };
 
 export function buttonClass(

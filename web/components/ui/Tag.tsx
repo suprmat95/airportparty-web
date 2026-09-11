@@ -11,9 +11,9 @@ export function Tag({ children, variant = 'outline', className }: Props) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-pill px-3 py-1.5 text-xs font-semibold tracking-[0.3px]',
-        variant === 'outline' && 'border-[1.5px] border-line text-ink-soft',
-        variant === 'filled' && 'bg-primary-soft text-primary-dark',
+        'inline-flex items-center rounded-sm border px-2.5 py-1 font-mono text-[11px] font-semibold tracking-[0.3px]',
+        variant === 'outline' && 'border-line bg-card text-ink-soft',
+        variant === 'filled' && 'border-line bg-card-alt text-ink-soft',
         className
       )}
     >
