@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { notFound, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Edit } from 'lucide-react';
@@ -14,6 +13,7 @@ import { Tag } from '@/components/ui/Tag';
 import { SlotCard } from '@/components/ui/SlotCard';
 import { SlotRow } from '@/components/ui/SlotRow';
 import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
 import { useAuth } from '@/lib/useAuth';
 import { fetchAirport } from '@/lib/api/airports';
 import { fetchSlotsForAirport } from '@/lib/api/slots';
@@ -198,8 +198,8 @@ export default function AirportTimelinePage({ params }: { params: { code: string
   const heroLabel = heroDateLabel(date, today);
   const airportShort = airportShortName(airport);
   const sublineDate = isToday
-    ? 'slot di oggi · ogni ora'
-    : `${ctaLabel(date, today)} · ogni ora`;
+    ? 'Slot di oggi, ogni ora'
+    : `${ctaLabel(date, today)}, ogni ora`;
   const sublineRange = range === 'all' ? '' : ` · ${TIME_RANGES.find((r) => r.id === range)!.label.toLowerCase()}`;
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(today, i));
@@ -225,23 +225,23 @@ export default function AirportTimelinePage({ params }: { params: { code: string
         <div className="mb-4 flex items-center justify-between">
           <div>
             <div className="label-cap">{formatDateIT(date)}</div>
-            <div className="mt-0.5 text-[13px] font-semibold text-ink-soft">
+            <div className="mt-0.5 text-[13px] font-medium text-ink-soft">
               {sublineDate}
               {sublineRange}
             </div>
           </div>
           <button
             type="button"
-            aria-label="modifica data e fascia oraria"
+            aria-label="Modifica data e fascia oraria"
             onClick={openSheet}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-pill border-[1.5px] border-line text-ink-soft transition hover:bg-card-alt"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-sm border border-line text-ink-soft transition hover:bg-card-alt"
           >
             <Edit className="h-4 w-4" strokeWidth={2} />
           </button>
         </div>
 
-        <h1 className="mb-5 text-[26px] font-extrabold leading-[1.1] tracking-tighter text-ink">
-          Chi c’è <span className="text-primary">{heroLabel}</span>
+        <h1 className="mb-5 text-[26px] font-semibold leading-[1.1] tracking-tight text-ink">
+          Chi c’è {heroLabel}
           <br />a {airportShort}?
         </h1>
 
@@ -257,15 +257,15 @@ export default function AirportTimelinePage({ params }: { params: { code: string
           />
 
           {slotsLoading && (
-            <div className="ml-6 rounded-[20px] border-[1.5px] border-dashed border-line bg-card p-5 text-center text-[13px] font-medium text-ink-soft">
+            <Card dashed className="ml-6 p-5 text-center text-[13px] font-medium text-ink-soft">
               Caricamento slot…
-            </div>
+            </Card>
           )}
 
           {!slotsLoading && filteredSlots.length === 0 && (
-            <div className="ml-6 rounded-[20px] border-[1.5px] border-dashed border-line bg-card p-5 text-center text-[13px] font-medium text-ink-soft">
-              Nessuno slot in questa fascia · prova a allargare i filtri
-            </div>
+            <Card dashed className="ml-6 p-5 text-center text-[13px] font-medium text-ink-soft">
+              Nessuno slot in questa fascia. Prova ad allargare i filtri.
+            </Card>
           )}
 
           <ul className="space-y-3 pl-6">
@@ -278,7 +278,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
               return (
                 <li key={slot.id} className="relative">
                   <span
-                    className="absolute -left-[22px] top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-[2px] border-line bg-card"
+                    className="absolute -left-[22px] top-1/2 h-3 w-3 -translate-y-1/2 rounded-full border-2 border-line bg-card"
                     style={
                       highlight
                         ? { borderColor: 'var(--primary)', background: 'var(--primary)' }
@@ -312,13 +312,8 @@ export default function AirportTimelinePage({ params }: { params: { code: string
           </ul>
         </div>
 
-        <div className="mt-6">
-          <Link
-            href="/airport"
-            className="block text-center text-xs font-semibold text-primary underline"
-          >
-            ← cambia aeroporto
-          </Link>
+        <div className="mt-6 flex justify-center">
+          <BackLink href="/airport" label="Cambia aeroporto" className="mx-auto" />
         </div>
 
         {/* S01B — bottom sheet mobile */}
@@ -329,7 +324,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
         >
           <div className="px-5 pb-5 pt-2">
             <div className="mb-4 flex items-baseline justify-between">
-              <h2 className="text-[22px] font-extrabold tracking-tighter text-ink">
+              <h2 className="text-[22px] font-semibold tracking-tight text-ink">
                 Quando parti?
               </h2>
               <div className="text-[12px] font-semibold capitalize text-ink-soft">
@@ -349,15 +344,15 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                       type="button"
                       onClick={() => setDraftDate(iso)}
                       className={cn(
-                        'flex min-w-[60px] flex-col items-center rounded-[16px] border-[1.5px] px-2 py-2.5 transition',
+                        'flex min-w-[60px] flex-col items-center rounded-sm border px-2 py-2.5 transition',
                         active
-                          ? 'border-primary bg-primary text-white shadow'
+                          ? 'border-primary bg-primary text-white'
                           : 'border-line bg-card text-ink hover:bg-card-alt'
                       )}
                     >
                       <span
                         className={cn(
-                          'text-[10px] font-bold uppercase tracking-[1px]',
+                          'text-[10px] font-semibold uppercase tracking-[1px]',
                           active ? 'text-white/80' : 'text-ink-muted'
                         )}
                       >
@@ -394,7 +389,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                     aria-checked={active}
                     onClick={() => setDraftRange(r.id)}
                     className={cn(
-                      'flex w-full items-center gap-3 rounded-[16px] border-[1.5px] px-4 py-3 text-left transition',
+                      'flex w-full items-center gap-3 rounded-sm border px-4 py-3 text-left transition',
                       active
                         ? 'border-primary bg-primary-soft'
                         : 'border-line bg-card hover:bg-card-alt'
@@ -402,7 +397,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                   >
                     <span
                       className={cn(
-                        'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-pill border-[1.5px]',
+                        'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-pill border',
                         active ? 'border-primary' : 'border-line'
                       )}
                     >
@@ -411,7 +406,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                     <div className="flex-1">
                       <div
                         className={cn(
-                          'text-[14px] font-bold',
+                          'text-[14px] font-semibold',
                           active ? 'text-primary-dark' : 'text-ink'
                         )}
                       >
@@ -429,7 +424,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
             </div>
 
             <Button variant="primary" fullWidth onClick={applyFilters}>
-              mostra slot · {ctaLabel(draftDate, today)}
+              Mostra slot di {ctaLabel(draftDate, today)}
             </Button>
           </div>
         </BottomSheet>
@@ -440,14 +435,14 @@ export default function AirportTimelinePage({ params }: { params: { code: string
         <div className="mx-auto max-w-[720px]">
           <BackLink href="/airport" label="Cambia aeroporto" className="mb-4" />
 
-          <div className="mb-5 flex items-center justify-between gap-3 rounded-[20px] border border-line bg-card p-4 shadow">
+          <Card className="mb-5 flex items-center justify-between gap-3 p-4">
             <div className="flex items-center gap-3">
               <Tag variant="filled">{airportCode}</Tag>
               <div>
-                <div className="text-[15px] font-bold capitalize text-ink">
+                <div className="text-[15px] font-semibold capitalize text-ink">
                   {formatDateIT(date)}
                 </div>
-                <div className="mt-0.5 text-[12px] font-semibold text-ink-soft">
+                <div className="mt-0.5 text-[12px] font-medium text-ink-soft">
                   {sublineDate}
                   {sublineRange}
                 </div>
@@ -455,22 +450,22 @@ export default function AirportTimelinePage({ params }: { params: { code: string
             </div>
             <Button variant="secondary" size="sm" onClick={openSheet}>
               <Edit className="h-3.5 w-3.5" strokeWidth={2} />
-              modifica
+              Modifica
             </Button>
-          </div>
+          </Card>
 
-          <h1 className="mb-5 text-[34px] font-extrabold leading-[1.1] tracking-tighter text-ink">
-            Chi c’è <span className="text-primary">{heroLabel}</span> a {airportShort}?
+          <h1 className="mb-5 text-[34px] font-semibold leading-[1.1] tracking-tight text-ink">
+            Chi c’è {heroLabel} a {airportShort}?
           </h1>
 
           {slotsLoading ? (
-            <div className="rounded-[20px] border-[1.5px] border-dashed border-line bg-card p-8 text-center text-[14px] font-medium text-ink-soft">
+            <Card dashed className="p-8 text-center text-[14px] font-medium text-ink-soft">
               Caricamento slot…
-            </div>
+            </Card>
           ) : filteredSlots.length === 0 ? (
-            <div className="rounded-[20px] border-[1.5px] border-dashed border-line bg-card p-8 text-center text-[14px] font-medium text-ink-soft">
-              Nessuno slot in questa fascia · prova a allargare i filtri
-            </div>
+            <Card dashed className="p-8 text-center text-[14px] font-medium text-ink-soft">
+              Nessuno slot in questa fascia. Prova ad allargare i filtri.
+            </Card>
           ) : (
             <ul className="space-y-3">
               {filteredSlots.map((slot) => {
@@ -516,7 +511,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
         >
           <div className="p-6">
             <div className="mb-5 flex items-baseline justify-between">
-              <h2 className="text-[22px] font-extrabold tracking-tighter text-ink">
+              <h2 className="text-[22px] font-semibold tracking-tight text-ink">
                 Quando parti?
               </h2>
               <div className="text-[12px] font-semibold capitalize text-ink-soft">
@@ -535,15 +530,15 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                     type="button"
                     onClick={() => setDraftDate(iso)}
                     className={cn(
-                      'flex flex-1 flex-col items-center rounded-[16px] border-[1.5px] px-1 py-2.5 transition',
+                      'flex flex-1 flex-col items-center rounded-sm border px-1 py-2.5 transition',
                       active
-                        ? 'border-primary bg-primary text-white shadow'
+                        ? 'border-primary bg-primary text-white'
                         : 'border-line bg-card text-ink hover:bg-card-alt'
                     )}
                   >
                     <span
                       className={cn(
-                        'text-[10px] font-bold uppercase tracking-[1px]',
+                        'text-[10px] font-semibold uppercase tracking-[1px]',
                         active ? 'text-white/80' : 'text-ink-muted'
                       )}
                     >
@@ -579,7 +574,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                     aria-checked={active}
                     onClick={() => setDraftRange(r.id)}
                     className={cn(
-                      'flex items-center gap-2.5 rounded-[16px] border-[1.5px] px-3.5 py-3 text-left transition',
+                      'flex items-center gap-2.5 rounded-sm border px-3.5 py-3 text-left transition',
                       active
                         ? 'border-primary bg-primary-soft'
                         : 'border-line bg-card hover:bg-card-alt'
@@ -587,7 +582,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                   >
                     <span
                       className={cn(
-                        'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-pill border-[1.5px]',
+                        'flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-pill border',
                         active ? 'border-primary' : 'border-line'
                       )}
                     >
@@ -596,7 +591,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                     <div className="flex-1">
                       <div
                         className={cn(
-                          'text-[13px] font-bold leading-tight',
+                          'text-[13px] font-semibold leading-tight',
                           active ? 'text-primary-dark' : 'text-ink'
                         )}
                       >
@@ -615,10 +610,10 @@ export default function AirportTimelinePage({ params }: { params: { code: string
 
             <div className="flex items-center justify-end gap-2">
               <Button variant="secondary" onClick={() => setSheetOpen(false)}>
-                annulla
+                Annulla
               </Button>
               <Button variant="primary" onClick={applyFilters}>
-                mostra slot · {ctaLabel(draftDate, today)}
+                Mostra slot di {ctaLabel(draftDate, today)}
               </Button>
             </div>
           </div>

@@ -59,7 +59,7 @@ export default function AirportSelectPage() {
 
   const searchCard = (
     <form onSubmit={onSubmit}>
-      <div className="flex items-center gap-3 rounded-[20px] border-[1.5px] border-line bg-card px-4 py-4 shadow-lg">
+      <div className="flex items-center gap-3 rounded border border-line bg-card px-4 py-4 focus-within:border-primary">
         <Search className="h-5 w-5 text-ink-muted" strokeWidth={2} />
         <div className="flex-1">
           <div className="label-cap">da quale aeroporto parti?</div>
@@ -67,13 +67,13 @@ export default function AirportSelectPage() {
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Cerca città o codice…"
-            className="mt-0.5 w-full bg-transparent text-[17px] font-semibold text-ink placeholder:font-medium placeholder:text-ink-muted focus:outline-none"
+            className="mt-0.5 w-full bg-transparent text-[17px] font-medium text-ink placeholder:font-normal placeholder:text-ink-muted focus:outline-none"
           />
         </div>
       </div>
 
       {matches.length > 0 && (
-        <ul className="mt-2 overflow-hidden rounded-[12px] border-[1.5px] border-line bg-card shadow">
+        <ul className="mt-2 overflow-hidden rounded-sm border border-line bg-card shadow-lg">
           {matches.map((a) => (
             <li key={a.code}>
               <button
@@ -81,10 +81,10 @@ export default function AirportSelectPage() {
                 onClick={() => go(a.code)}
                 className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-card-alt"
               >
-                <span className="text-[14px] font-bold text-ink">
+                <span className="text-[14px] font-semibold text-ink">
                   {a.city} <span className="text-ink-soft">· {a.name}</span>
                 </span>
-                <span className="font-mono text-[13px] font-bold text-primary">{a.code}</span>
+                <span className="font-mono text-[13px] font-semibold text-ink-soft">{a.code}</span>
               </button>
             </li>
           ))}
@@ -119,17 +119,17 @@ export default function AirportSelectPage() {
               </Link>
             ) : (
               <Link href="/login" className={buttonClass('secondary', 'sm')}>
-                accedi
+                Accedi
               </Link>
             ))}
         </div>
 
-        <h1 className="mb-1.5 text-[34px] font-extrabold leading-[1.05] tracking-tightest text-ink">
+        <h1 className="mb-1.5 text-[34px] font-semibold leading-[1.05] tracking-tight text-ink">
           Non aspettare
           <br />
-          <span className="text-primary">da solo</span>.
+          da solo.
         </h1>
-        <p className="mb-7 text-[15px] font-medium leading-relaxed text-ink-soft">
+        <p className="mb-7 text-[15px] font-normal leading-relaxed text-ink-soft">
           Trova chi parte vicino a te.
           <br />
           Un caffè, una birra, due chiacchiere.
@@ -137,13 +137,13 @@ export default function AirportSelectPage() {
 
         <div className="mb-4">{searchCard}</div>
 
-        <div className="label-cap mb-2.5 ml-1">o scegli al volo</div>
+        <div className="label-cap mb-2.5 ml-1">Oppure scegli al volo</div>
         <div className="mb-5">{quickChips}</div>
 
         <div className="flex-1" />
 
         <p className="text-center text-xs font-medium text-ink-muted">
-          Scegli l’aeroporto → ti mostriamo chi c’è oggi ✈
+          Scegli l’aeroporto e ti mostriamo chi c’è oggi.
         </p>
       </MobileShell>
 
@@ -152,12 +152,12 @@ export default function AirportSelectPage() {
         <div className="flex min-h-[calc(100vh-200px)] flex-col items-center justify-center gap-[60px] lg:flex-row lg:items-center">
           {/* Hero */}
           <div className="flex-1">
-            <h1 className="mb-3 text-[48px] font-extrabold leading-[1.05] tracking-tightest text-ink">
+            <h1 className="mb-3 text-[48px] font-semibold leading-[1.05] tracking-tight text-ink">
               Non aspettare
               <br />
-              <span className="text-primary">da solo</span>.
+              da solo.
             </h1>
-            <p className="max-w-[440px] text-[17px] font-medium leading-relaxed text-ink-soft">
+            <p className="max-w-[440px] text-[17px] font-normal leading-relaxed text-ink-soft">
               Trova chi parte vicino a te.
               <br />
               Un caffè, una birra, due chiacchiere.
@@ -168,11 +168,11 @@ export default function AirportSelectPage() {
           <div className="w-full lg:w-[400px]">
             {searchCard}
 
-            <div className="label-cap mb-2.5 ml-1 mt-5">o scegli al volo</div>
+            <div className="label-cap mb-2.5 ml-1 mt-5">Oppure scegli al volo</div>
             {quickChips}
 
             <p className="mt-6 text-[12px] font-medium text-ink-muted">
-              Scegli l’aeroporto → ti mostriamo chi c’è oggi ✈
+              Scegli l’aeroporto e ti mostriamo chi c’è oggi.
             </p>
           </div>
         </div>
