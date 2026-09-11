@@ -36,9 +36,9 @@ export function DesktopNavBar({ active = null }: Props) {
                 key={link.key}
                 href={link.href}
                 className={cn(
-                  'rounded-pill px-3.5 py-1.5 text-sm font-semibold transition',
+                  'rounded-sm px-3 py-1.5 text-sm font-medium transition',
                   isActive
-                    ? 'bg-primary-soft text-primary'
+                    ? 'bg-card-alt text-ink'
                     : 'text-ink-soft hover:bg-card-alt hover:text-ink'
                 )}
               >
@@ -69,7 +69,7 @@ export function DesktopNavBar({ active = null }: Props) {
             ) : (
               <Link href="/login">
                 <Button variant="secondary" size="sm">
-                  accedi
+                  Accedi
                 </Button>
               </Link>
             ))}

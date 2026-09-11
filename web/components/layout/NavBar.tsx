@@ -15,8 +15,8 @@ export function NavBar({ back = '/', right, className }: Props) {
     <div className={cn('mb-5 flex items-center justify-between', className)}>
       <Link
         href={back}
-        aria-label="indietro"
-        className="-ml-1 inline-flex h-9 w-9 items-center justify-center rounded-pill text-ink-soft hover:bg-card-alt"
+        aria-label="Indietro"
+        className="-ml-1 inline-flex h-9 w-9 items-center justify-center rounded-sm text-ink-soft hover:bg-card-alt"
       >
         <ArrowLeft className="h-5 w-5" strokeWidth={2} />
       </Link>

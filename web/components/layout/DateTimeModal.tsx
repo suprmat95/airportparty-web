@@ -46,7 +46,7 @@ export function DateTimeModal({ open, onClose, children, ariaLabel }: Props) {
           aria-modal="true"
           aria-label={ariaLabel}
           className={
-            'pointer-events-auto w-full max-w-[480px] rounded-[24px] border border-line bg-card shadow-lg transition-all duration-200 ' +
+            'pointer-events-auto w-full max-w-[480px] rounded-xl border border-line bg-card shadow-lg transition-all duration-200 ' +
             (open ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0')
           }
         >

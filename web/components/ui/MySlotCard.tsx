@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { Clock } from 'lucide-react';
+import { ArrowRight, Clock, Plane } from 'lucide-react';
 import { Tag } from './Tag';
 import { AvatarStack, type AvatarStackItem } from './AvatarStack';
 import { chatOpensAt, cn, computeCountdown, formatDateIT, pad2, type SlotStatus } from '@/lib/utils';
@@ -28,7 +28,7 @@ const STATUS_LABEL: Record<SlotStatus, string> = {
 };
 
 const STATUS_CLASSES: Record<SlotStatus, string> = {
-  countdown: 'bg-accent-soft text-accent',
+  countdown: 'bg-warning-soft text-warning',
   chatready: 'bg-primary-soft text-primary-dark',
   waiting: 'bg-card-alt text-ink-soft',
   future: 'bg-card-alt text-ink-soft',
@@ -52,8 +52,8 @@ export function MySlotCard({
     <Link
       href={href}
       className={cn(
-        'block rounded-[20px] border-[1.5px] p-4 shadow transition hover:shadow-lg',
-        isCountdown ? 'border-accent bg-card' : 'border-line bg-card',
+        'block rounded border bg-card p-4 transition hover:border-ink-muted',
+        isCountdown ? 'border-warning' : 'border-line',
         isDone && 'opacity-70'
       )}
     >
@@ -66,8 +66,9 @@ export function MySlotCard({
         </div>
 
         {destination && (
-          <span className="font-mono text-[12px] font-semibold text-ink-soft">
-            → {destination}
+          <span className="inline-flex items-center gap-1 font-mono text-[12px] font-semibold text-ink-soft">
+            <Plane className="h-3 w-3" strokeWidth={2} />
+            {destination}
           </span>
         )}
       </div>
@@ -89,8 +90,9 @@ export function MySlotCard({
       </div>
 
       {isCountdown && (
-        <div className="mt-3 flex items-center justify-between gap-3 border-t border-line pt-3 text-[12px] font-semibold text-accent">
-          vedi dettagli →
+        <div className="mt-3 flex items-center gap-1 border-t border-line pt-3 text-[12px] font-semibold text-warning">
+          Vedi dettagli
+          <ArrowRight className="h-3.5 w-3.5" strokeWidth={2} />
         </div>
       )}
     </Link>
@@ -104,7 +106,7 @@ function StatusBadge({ status, slot }: { status: SlotStatus; slot: Slot }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center rounded-pill px-3 py-1 text-[11px] font-bold',
+        'inline-flex items-center rounded-pill px-3 py-1 text-[11px] font-semibold',
         STATUS_CLASSES[status]
       )}
     >
@@ -124,14 +126,14 @@ function CountdownBadge({ slot }: { slot: Slot }) {
 
   if (tick.done) {
     return (
-      <span className="inline-flex items-center rounded-pill bg-primary-soft px-3 py-1 text-[11px] font-bold text-primary-dark">
+      <span className="inline-flex items-center rounded-pill bg-primary-soft px-3 py-1 text-[11px] font-semibold text-primary-dark">
         {STATUS_LABEL.chatready}
       </span>
     );
   }
 
   return (
-    <span className="inline-flex items-center gap-1.5 rounded-pill bg-accent-soft px-3 py-1 text-[11px] font-bold text-accent">
+    <span className="inline-flex items-center gap-1.5 rounded-pill bg-warning-soft px-3 py-1 text-[11px] font-semibold text-warning">
       <Clock className="h-3 w-3" strokeWidth={2.5} />
       <span className="font-mono">
         {pad2(tick.hours)}:{pad2(tick.minutes)}:{pad2(tick.seconds)}

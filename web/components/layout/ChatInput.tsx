@@ -9,7 +9,7 @@ type Props = {
   disabled?: boolean;
 };
 
-export function ChatInput({ onSend, placeholder = 'scrivi un messaggio…', disabled }: Props) {
+export function ChatInput({ onSend, placeholder = 'Scrivi un messaggio…', disabled }: Props) {
   const [text, setText] = useState('');
 
   function submit(e: FormEvent) {
@@ -25,19 +25,19 @@ export function ChatInput({ onSend, placeholder = 'scrivi un messaggio…', disa
       onSubmit={submit}
       className="sticky bottom-0 -mx-5 mt-3 border-t border-line bg-bg/95 px-5 py-3 backdrop-blur"
     >
-      <div className="flex items-center gap-2 rounded-pill border-[1.5px] border-line bg-card px-4 py-2 shadow">
+      <div className="flex items-center gap-2 rounded border border-line bg-card px-3.5 py-2">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}
           placeholder={placeholder}
           disabled={disabled}
-          className="flex-1 bg-transparent text-[14px] font-semibold text-ink placeholder:font-medium placeholder:text-ink-muted focus:outline-none disabled:opacity-50"
+          className="flex-1 bg-transparent text-[14px] font-medium text-ink placeholder:font-normal placeholder:text-ink-muted focus:outline-none disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={disabled || !text.trim()}
-          aria-label="invia"
-          className="inline-flex h-9 w-9 items-center justify-center rounded-pill bg-primary text-white transition active:scale-95 disabled:opacity-40"
+          aria-label="Invia"
+          className="inline-flex h-9 w-9 items-center justify-center rounded-sm bg-primary text-white transition active:scale-95 disabled:opacity-40"
         >
           <Send className="h-4 w-4" strokeWidth={2} />
         </button>

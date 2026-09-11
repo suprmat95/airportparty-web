@@ -46,7 +46,7 @@ export function BottomSheet({ open, onClose, children, ariaLabel }: Props) {
           aria-modal="true"
           aria-label={ariaLabel}
           className={
-            'pointer-events-auto w-full max-w-[420px] rounded-t-[28px] border-t border-line bg-card shadow-lg transition-transform duration-300 ease-out ' +
+            'pointer-events-auto w-full max-w-[420px] rounded-t-2xl border-t border-line bg-card shadow-lg transition-transform duration-300 ease-out ' +
             (open ? 'translate-y-0' : 'translate-y-full')
           }
         >

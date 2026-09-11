@@ -27,7 +27,7 @@ export function SegmentedTabs<T extends string>({
     <div
       role="tablist"
       className={cn(
-        'rounded-pill bg-card-alt p-1',
+        'rounded bg-card-alt p-1',
         fullWidth ? 'flex w-full' : 'inline-flex',
         className
       )}
@@ -42,18 +42,18 @@ export function SegmentedTabs<T extends string>({
             aria-selected={isActive}
             onClick={() => onChange(item.id)}
             className={cn(
-              'flex items-center justify-center gap-1.5 rounded-pill px-4 py-2 text-[13px] font-bold transition',
+              'flex items-center justify-center gap-1.5 rounded-sm px-4 py-2 text-[13px] font-semibold transition',
               fullWidth && 'flex-1',
               isActive
-                ? 'bg-card text-ink shadow'
-                : 'text-ink-soft hover:text-ink'
+                ? 'border border-line bg-card text-ink'
+                : 'border border-transparent text-ink-soft hover:text-ink'
             )}
           >
             <span>{item.label}</span>
             {typeof item.count === 'number' && (
               <span
                 className={cn(
-                  'rounded-pill px-1.5 py-0.5 font-mono text-[10px]',
+                  'rounded-sm px-1.5 py-0.5 font-mono text-[10px]',
                   isActive ? 'bg-primary-soft text-primary-dark' : 'bg-bg text-ink-muted'
                 )}
               >

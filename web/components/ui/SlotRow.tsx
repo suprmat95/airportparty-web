@@ -1,6 +1,7 @@
 import { AvatarStack, type AvatarStackItem } from './AvatarStack';
 import { Button } from './Button';
-import { cn } from '@/lib/utils';
+import { Card } from './Card';
+import { peopleLabel } from './SlotCard';
 
 type Props = {
   time: string;
@@ -13,11 +14,9 @@ type Props = {
 
 export function SlotRow({ time, going, avatars, highlight, joined, onJoin }: Props) {
   return (
-    <div
-      className={cn(
-        'flex w-full items-center gap-5 rounded-[20px] border-[1.5px] px-5 py-4 shadow transition hover:shadow-lg',
-        highlight ? 'border-primary bg-primary-soft' : 'border-line bg-card'
-      )}
+    <Card
+      highlight={highlight}
+      className="flex w-full items-center gap-5 px-5 py-4 transition hover:border-ink-muted"
     >
       <div className="min-w-[80px] font-mono text-[24px] font-bold leading-none text-ink">
         {time}
@@ -26,10 +25,8 @@ export function SlotRow({ time, going, avatars, highlight, joined, onJoin }: Pro
       <div className="h-10 w-px bg-line" aria-hidden />
 
       <div className="flex flex-1 items-center gap-3">
-        <AvatarStack items={avatars} size={28} />
-        <span className="text-[13px] font-semibold text-ink-soft">
-          {going} {going === 1 ? 'persona' : 'persone'}
-        </span>
+        {going > 0 && <AvatarStack items={avatars} size={28} />}
+        <span className="text-[13px] font-medium text-ink-soft">{peopleLabel(going)}</span>
       </div>
 
       <Button
@@ -37,8 +34,8 @@ export function SlotRow({ time, going, avatars, highlight, joined, onJoin }: Pro
         size="sm"
         onClick={onJoin}
       >
-        {joined ? '✓ joined' : 'join'}
+        {joined ? 'Iscritto' : 'Partecipa'}
       </Button>
-    </div>
+    </Card>
   );
 }

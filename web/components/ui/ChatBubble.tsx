@@ -26,8 +26,8 @@ export function ChatBubble({ from, initials, color, text, time, isMe }: Props) {
         )}
         <div
           className={cn(
-            'rounded-2xl px-3 py-2 text-[13px] font-medium leading-snug',
-            isMe ? 'bg-primary text-white' : 'border-[1.5px] border-line bg-card text-ink'
+            'rounded-xl px-3 py-2 text-[13px] font-normal leading-snug',
+            isMe ? 'bg-primary text-white' : 'border border-line bg-card text-ink'
           )}
         >
           {text}
