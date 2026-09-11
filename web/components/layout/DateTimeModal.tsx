@@ -34,7 +34,7 @@ export function DateTimeModal({ open, onClose, children, ariaLabel }: Props) {
     >
       <button
         type="button"
-        aria-label="chiudi"
+        aria-label="Chiudi"
         onClick={onClose}
         tabIndex={open ? 0 : -1}
         className="absolute inset-0 bg-ink/30 backdrop-blur-sm"

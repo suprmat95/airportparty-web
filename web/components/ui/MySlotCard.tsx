@@ -52,8 +52,8 @@ export function MySlotCard({
     <Link
       href={href}
       className={cn(
-        'block rounded border bg-card p-4 transition hover:border-ink-muted',
-        isCountdown ? 'border-warning' : 'border-line',
+        'block rounded border bg-card p-4 transition',
+        isCountdown ? 'border-warning' : 'border-line hover:border-ink-muted',
         isDone && 'opacity-70'
       )}
     >

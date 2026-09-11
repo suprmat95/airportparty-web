@@ -59,10 +59,10 @@ export default function AirportSelectPage() {
 
   const searchCard = (
     <form onSubmit={onSubmit}>
-      <div className="flex items-center gap-3 rounded border border-line bg-card px-4 py-4 focus-within:border-primary">
+      <div className="flex items-center gap-3 rounded border border-line bg-card px-4 py-4 transition focus-within:border-primary">
         <Search className="h-5 w-5 text-ink-muted" strokeWidth={2} />
         <div className="flex-1">
-          <div className="label-cap">da quale aeroporto parti?</div>
+          <div className="label-cap">Da quale aeroporto parti?</div>
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
@@ -110,7 +110,7 @@ export default function AirportSelectPage() {
           <Wordmark size={22} />
           {ready &&
             (user ? (
-              <Link href="/profile" aria-label="profilo">
+              <Link href="/profile" aria-label="Profilo">
                 <Avatar
                   initials={initialsOf(user.name)}
                   color={user.avatarColor}

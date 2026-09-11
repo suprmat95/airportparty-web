@@ -199,7 +199,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
   const airportShort = airportShortName(airport);
   const sublineDate = isToday
     ? 'Slot di oggi, ogni ora'
-    : `${ctaLabel(date, today)}, ogni ora`;
+    : `${ctaLabel(date, today).charAt(0).toUpperCase()}${ctaLabel(date, today).slice(1)}, ogni ora`;
   const sublineRange = range === 'all' ? '' : ` · ${TIME_RANGES.find((r) => r.id === range)!.label.toLowerCase()}`;
 
   const days = Array.from({ length: 7 }, (_, i) => addDays(today, i));
@@ -313,7 +313,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
         </div>
 
         <div className="mt-6 flex justify-center">
-          <BackLink href="/airport" label="Cambia aeroporto" className="mx-auto" />
+          <BackLink href="/airport" label="Cambia aeroporto" />
         </div>
 
         {/* S01B — bottom sheet mobile */}
@@ -377,8 +377,8 @@ export default function AirportTimelinePage({ params }: { params: { code: string
               </div>
             </div>
 
-            <div className="label-cap mb-2">fascia oraria</div>
-            <div role="radiogroup" aria-label="fascia oraria" className="mb-5 space-y-2">
+            <div className="label-cap mb-2">Fascia oraria</div>
+            <div role="radiogroup" aria-label="Fascia oraria" className="mb-5 space-y-2">
               {TIME_RANGES.map((r) => {
                 const active = draftRange === r.id;
                 return (
@@ -562,8 +562,8 @@ export default function AirportTimelinePage({ params }: { params: { code: string
               })}
             </div>
 
-            <div className="label-cap mb-2">fascia oraria</div>
-            <div role="radiogroup" aria-label="fascia oraria" className="mb-6 grid grid-cols-2 gap-2">
+            <div className="label-cap mb-2">Fascia oraria</div>
+            <div role="radiogroup" aria-label="Fascia oraria" className="mb-6 grid grid-cols-2 gap-2">
               {TIME_RANGES.map((r) => {
                 const active = draftRange === r.id;
                 return (

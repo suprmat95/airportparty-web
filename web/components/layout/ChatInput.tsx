@@ -25,7 +25,7 @@ export function ChatInput({ onSend, placeholder = 'Scrivi un messaggio…', disa
       onSubmit={submit}
       className="sticky bottom-0 -mx-5 mt-3 border-t border-line bg-bg/95 px-5 py-3 backdrop-blur"
     >
-      <div className="flex items-center gap-2 rounded border border-line bg-card px-3.5 py-2">
+      <div className="flex items-center gap-2 rounded border border-line bg-card px-3.5 py-2 transition focus-within:border-primary">
         <input
           value={text}
           onChange={(e) => setText(e.target.value)}

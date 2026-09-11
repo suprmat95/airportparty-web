@@ -6,6 +6,7 @@ import { useState, type FormEvent } from 'react';
 import { Mail, Lock, User } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
+import { Card } from '@/components/ui/Card';
 import { InputField } from '@/components/ui/InputField';
 import { Button } from '@/components/ui/Button';
 import { Wordmark } from '@/components/ui/Wordmark';
@@ -136,7 +137,7 @@ export default function SignupPage() {
               <Wordmark size={24} />
             </Link>
           </div>
-          <div className="rounded border border-line bg-card p-8 shadow-lg">
+          <Card className="p-8">
             <h1 className="mb-1 text-[26px] font-semibold tracking-tight text-ink">
               Crea il tuo account
             </h1>
@@ -144,7 +145,7 @@ export default function SignupPage() {
               Bastano 30 secondi.
             </p>
             {form}
-          </div>
+          </Card>
           <p className="mt-5 text-center text-[12px] font-medium text-ink-soft">
             Hai già un account?{' '}
             <Link href="/login" className="font-semibold text-primary">

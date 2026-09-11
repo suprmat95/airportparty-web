@@ -53,7 +53,7 @@ export function DesktopNavBar({ active = null }: Props) {
             (user ? (
               <Link
                 href="/profile"
-                aria-label="profilo"
+                aria-label="Profilo"
                 className={cn(
                   'rounded-pill transition hover:opacity-90',
                   active === 'profile' &&

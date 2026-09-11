@@ -2,6 +2,7 @@ import { AvatarStack, type AvatarStackItem } from './AvatarStack';
 import { Button } from './Button';
 import { Card } from './Card';
 import { peopleLabel } from './SlotCard';
+import { cn } from '@/lib/utils';
 
 type Props = {
   time: string;
@@ -16,7 +17,7 @@ export function SlotRow({ time, going, avatars, highlight, joined, onJoin }: Pro
   return (
     <Card
       highlight={highlight}
-      className="flex w-full items-center gap-5 px-5 py-4 transition hover:border-ink-muted"
+      className={cn('flex w-full items-center gap-5 px-5 py-4 transition', !highlight && 'hover:border-ink-muted')}
     >
       <div className="min-w-[80px] font-mono text-[24px] font-bold leading-none text-ink">
         {time}

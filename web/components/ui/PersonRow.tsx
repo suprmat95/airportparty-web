@@ -13,8 +13,6 @@ type Props = {
 };
 
 export function PersonRow({ name, destination, note, initials, color, isMe }: Props) {
-  const detail = note ? note : null;
-
   return (
     <div
       className={cn(
@@ -28,7 +26,7 @@ export function PersonRow({ name, destination, note, initials, color, isMe }: Pr
           {name}
           {isMe && <span className="ml-1 text-[10px] font-semibold text-primary">(tu)</span>}
         </div>
-        {(destination || detail) && (
+        {(destination || note) && (
           <div className="mt-1 flex items-center gap-1.5 text-[11px] font-medium text-ink-soft">
             {destination && (
               <span className="inline-flex items-center gap-1 font-mono">
@@ -36,8 +34,8 @@ export function PersonRow({ name, destination, note, initials, color, isMe }: Pr
                 {destination}
               </span>
             )}
-            {destination && detail && <span aria-hidden>·</span>}
-            {detail && <span>{detail}</span>}
+            {destination && note && <span aria-hidden>·</span>}
+            {note && <span>{note}</span>}
           </div>
         )}
       </div>

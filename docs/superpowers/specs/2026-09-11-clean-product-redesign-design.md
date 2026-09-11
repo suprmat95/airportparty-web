@@ -81,6 +81,12 @@ Sostituisce i riquadri scritti a mano nelle pagine (31 `rounded-[20px]`, 4
 `rounded-[16px]`, 6 `rounded-[24px]`). Il padding resta a carico del chiamante via
 `className`, perché varia da 12 a 32px.
 
+Card renderizza un `<div>` e non ha una prop `as`: le superfici il cui elemento radice
+deve restare un `<a>`/`<Link>` (MySlotCard), un `<ul>` (menu del profilo) o un
+`<form>`/contenitore con dropdown (ricerca aeroporto) mantengono le stesse classi
+scritte a mano (`rounded border border-line bg-card`). Eccezione registrata dopo la
+review finale.
+
 ### Modifiche
 - **Button**: `rounded-sm` (8px), testo 14px `font-semibold`, primario `bg-primary
   hover:bg-primary-dark`, secondario `border border-line bg-card hover:bg-card-alt`.
@@ -100,7 +106,7 @@ Sostituisce i riquadri scritti a mano nelle pagine (31 `rounded-[20px]`, 4
   Lucide `Plane` 12px seguita dal codice.
 - **SlotCard / SlotRow**: usano `Card`; copy "Partecipa" / "Iscritto";
   "0 persone" diventa "Nessuno, per ora".
-- **MySlotCard**: usa `Card`; stato countdown su `warning`; "vedi dettagli →"
+- **MySlotCard**: stesse classi di `Card` scritte a mano (radice `<Link>`); stato countdown su `warning`; "vedi dettagli →"
   diventa "Vedi dettagli" con icona `ArrowRight`; "→ destinazione" come in PersonRow.
 - **BackLink**: la freccia testuale diventa icona Lucide `ArrowLeft` 14px.
 - **BottomSheet**: `rounded-t-2xl` (16px), mantiene `shadow-lg`.

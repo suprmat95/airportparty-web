@@ -34,7 +34,7 @@ export function BottomSheet({ open, onClose, children, ariaLabel }: Props) {
     >
       <button
         type="button"
-        aria-label="chiudi"
+        aria-label="Chiudi"
         onClick={onClose}
         tabIndex={open ? 0 : -1}
         className="absolute inset-0 bg-ink/40 backdrop-blur-sm"
@@ -51,7 +51,7 @@ export function BottomSheet({ open, onClose, children, ariaLabel }: Props) {
           }
         >
           <div className="flex justify-center pt-2.5 pb-1">
-            <span className="h-1 w-10 rounded-pill bg-line" aria-hidden />
+            <span className="h-1 w-10 rounded-pill bg-ink-muted" aria-hidden />
           </div>
           {children}
         </div>

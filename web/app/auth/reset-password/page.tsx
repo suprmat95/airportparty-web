@@ -109,7 +109,7 @@ export default function ResetPasswordPage() {
               <Wordmark size={24} />
             </Link>
           </div>
-          <div className="rounded border border-line bg-card p-8 shadow-lg">
+          <Card className="p-8">
             <h1 className="mb-1 text-[26px] font-semibold tracking-tight text-ink">
               Nuova password
             </h1>
@@ -117,7 +117,7 @@ export default function ResetPasswordPage() {
               Imposta una password sicura per il tuo account.
             </p>
             {body}
-          </div>
+          </Card>
           <p className="mt-5 text-center text-[12px] font-medium text-ink-soft">
             <Link href="/login" className="font-semibold text-primary">
               Torna al login

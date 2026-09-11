@@ -6,6 +6,7 @@ import { Suspense, useState, type FormEvent } from 'react';
 import { Mail, Lock } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
+import { Card } from '@/components/ui/Card';
 import { InputField } from '@/components/ui/InputField';
 import { Button } from '@/components/ui/Button';
 import { Wordmark } from '@/components/ui/Wordmark';
@@ -119,7 +120,7 @@ function LoginPageContent() {
               <Wordmark size={24} />
             </Link>
           </div>
-          <div className="rounded border border-line bg-card p-8 shadow-lg">
+          <Card className="p-8">
             <h1 className="mb-1 text-[26px] font-semibold tracking-tight text-ink">
               Bentornato
             </h1>
@@ -127,7 +128,7 @@ function LoginPageContent() {
               Accedi per ritrovare i tuoi slot.
             </p>
             {form}
-          </div>
+          </Card>
           <p className="mt-5 text-center text-[12px] font-medium text-ink-soft">
             Non hai un account?{' '}
             <Link href="/signup" className="font-semibold text-primary">
