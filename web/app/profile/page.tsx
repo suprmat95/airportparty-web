@@ -9,6 +9,7 @@ import { NavBar } from '@/components/layout/NavBar';
 import { DesktopShell } from '@/components/layout/DesktopShell';
 import { BackLink } from '@/components/layout/BackLink';
 import { Avatar } from '@/components/ui/Avatar';
+import { Card } from '@/components/ui/Card';
 import { buttonClass } from '@/components/ui/Button';
 import { useAuth } from '@/lib/useAuth';
 import { fetchProfileStats } from '@/lib/api/profile';
@@ -86,7 +87,7 @@ export default function ProfilePage() {
             color={user.avatarColor}
             size={84}
           />
-          <h1 className="mt-3 text-[22px] font-extrabold tracking-tighter text-ink">
+          <h1 className="mt-3 text-[22px] font-semibold tracking-tight text-ink">
             {user.name}
           </h1>
           <p className="text-[12px] font-medium text-ink-soft">{user.email}</p>
@@ -98,13 +99,13 @@ export default function ProfilePage() {
           ))}
         </div>
 
-        <ul className="mb-5 overflow-hidden rounded-[20px] border-[1.5px] border-line bg-card shadow">
+        <ul className="mb-5 overflow-hidden rounded border border-line bg-card">
           {MENU.map((item, i) => (
             <li key={item.label}>
               <Link
                 href={item.href}
                 className={
-                  'flex items-center justify-between px-4 py-3.5 text-[14px] font-bold text-ink hover:bg-card-alt' +
+                  'flex items-center justify-between px-4 py-3.5 text-[14px] font-medium text-ink hover:bg-card-alt' +
                   (i < MENU.length - 1 ? ' border-b border-line' : '')
                 }
               >
@@ -120,7 +121,7 @@ export default function ProfilePage() {
           onClick={handleSignOut}
           className={buttonClass('secondary', 'md', true)}
         >
-          esci · logout
+          Esci
         </button>
       </MobileShell>
 
@@ -131,7 +132,7 @@ export default function ProfilePage() {
 
           <div className="flex gap-7">
             <aside className="w-[280px] flex-shrink-0">
-              <div className="rounded-[24px] border border-line bg-card p-6 text-center shadow">
+              <Card className="p-6 text-center">
                 <div className="flex justify-center">
                   <Avatar
                     initials={initialsOf(user.name)}
@@ -139,7 +140,7 @@ export default function ProfilePage() {
                     size={88}
                   />
                 </div>
-                <h1 className="mt-3 text-[22px] font-extrabold tracking-tighter text-ink">
+                <h1 className="mt-3 text-[22px] font-semibold tracking-tight text-ink">
                   {user.name}
                 </h1>
                 <p className="mt-0.5 text-[12px] font-medium text-ink-soft">{user.email}</p>
@@ -147,11 +148,11 @@ export default function ProfilePage() {
                   href="/profile"
                   className="mt-3 inline-block text-[12px] font-semibold text-primary underline"
                 >
-                  modifica profilo
+                  Modifica profilo
                 </Link>
-              </div>
+              </Card>
 
-              <div className="mt-4 grid grid-cols-3 gap-2 rounded-[20px] border border-line bg-card p-3 shadow">
+              <Card className="mt-4 grid grid-cols-3 gap-2 p-3">
                 {statItems.map((s) => (
                   <div key={s.label} className="text-center">
                     <div className="font-mono text-[20px] font-bold leading-none text-ink">
@@ -160,20 +161,20 @@ export default function ProfilePage() {
                     <div className="label-cap mt-1">{s.label}</div>
                   </div>
                 ))}
-              </div>
+              </Card>
             </aside>
 
             <section className="flex-1">
-              <h2 className="mb-3 text-[20px] font-extrabold tracking-tighter text-ink">
+              <h2 className="mb-3 text-[20px] font-semibold tracking-tight text-ink">
                 Impostazioni
               </h2>
-              <ul className="overflow-hidden rounded-[20px] border border-line bg-card shadow">
+              <ul className="overflow-hidden rounded border border-line bg-card">
                 {MENU.map((item, i) => (
                   <li key={item.label}>
                     <Link
                       href={item.href}
                       className={
-                        'flex items-center justify-between px-5 py-4 text-[15px] font-bold text-ink hover:bg-card-alt' +
+                        'flex items-center justify-between px-5 py-4 text-[15px] font-medium text-ink hover:bg-card-alt' +
                         (i < MENU.length - 1 ? ' border-b border-line' : '')
                       }
                     >
@@ -189,7 +190,7 @@ export default function ProfilePage() {
                 onClick={handleSignOut}
                 className={buttonClass('secondary', 'md', false, 'mt-5')}
               >
-                esci · logout
+                Esci
               </button>
             </section>
           </div>
@@ -201,9 +202,9 @@ export default function ProfilePage() {
 
 function Stat({ value, label }: { value: number; label: string }) {
   return (
-    <div className="rounded-[20px] border-[1.5px] border-line bg-card p-3 text-center shadow">
+    <Card className="p-3 text-center">
       <div className="font-mono text-[22px] font-bold leading-none text-ink">{value}</div>
       <div className="label-cap mt-1">{label}</div>
-    </div>
+    </Card>
   );
 }

@@ -2,11 +2,12 @@
 
 import { notFound, useRouter } from 'next/navigation';
 import { useEffect, useState, type FormEvent } from 'react';
-import { Mail, Lock, User } from 'lucide-react';
+import { Lock, Mail, MessageSquare, Plane, User } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
 import { DesktopShell } from '@/components/layout/DesktopShell';
 import { BackLink } from '@/components/layout/BackLink';
+import { Card } from '@/components/ui/Card';
 import { InputField } from '@/components/ui/InputField';
 import { Button } from '@/components/ui/Button';
 import { Avatar } from '@/components/ui/Avatar';
@@ -182,14 +183,14 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
   const accountFields = (
     <>
       <InputField
-        label="nome"
+        label="Nome"
         icon={<User className="h-5 w-5" strokeWidth={2} />}
         placeholder="Come ti chiami?"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
       <InputField
-        label="email"
+        label="Email"
         icon={<Mail className="h-5 w-5" strokeWidth={2} />}
         type="email"
         placeholder="tu@email.com"
@@ -197,7 +198,7 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
         onChange={(e) => setEmail(e.target.value)}
       />
       <InputField
-        label="password"
+        label="Password"
         icon={<Lock className="h-5 w-5" strokeWidth={2} />}
         type="password"
         placeholder="min. 6 caratteri"
@@ -208,32 +209,32 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
   );
 
   const loggedAccount = user && (
-    <div className="flex items-center gap-3 rounded-[20px] border-[1.5px] border-line bg-card-alt p-3 shadow">
+    <Card className="flex items-center gap-3 bg-card-alt p-3">
       <Avatar
         initials={initialsOf(user.name)}
         color={user.avatarColor}
         size={40}
       />
       <div className="flex-1">
-        <div className="text-[14px] font-bold text-ink">{user.name}</div>
+        <div className="text-[14px] font-semibold text-ink">{user.name}</div>
         <div className="text-[11px] font-medium text-ink-soft">{user.email}</div>
       </div>
-      <span className="text-[11px] font-semibold text-primary">loggato</span>
-    </div>
+      <span className="text-[11px] font-semibold text-primary">Connesso</span>
+    </Card>
   );
 
   const slotFields = (
     <>
       <InputField
-        label="destinazione"
-        icon="✈"
+        label="Destinazione"
+        icon={<Plane className="h-5 w-5" strokeWidth={2} />}
         placeholder="es. BCN"
         value={destination}
         onChange={(e) => setDestination(e.target.value)}
       />
       <InputField
-        label="nota (opzionale)"
-        icon="✦"
+        label="Nota (opzionale)"
+        icon={<MessageSquare className="h-5 w-5" strokeWidth={2} />}
         placeholder="es. caffè pre-volo?"
         value={note}
         onChange={(e) => setNote(e.target.value)}
@@ -256,18 +257,14 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
   );
 
   const errorBox = error && (
-    <div className="mb-3 rounded-sm border-[1.5px] border-error/30 bg-error/10 px-3 py-2 text-[12px] font-semibold text-error">
+    <div className="mb-3 rounded-sm border border-error/30 bg-error/10 px-3 py-2 text-[12px] font-medium text-error">
       {error}
     </div>
   );
 
   const submitButton = (
     <Button type="submit" variant="primary" fullWidth disabled={submitting}>
-      {submitting
-        ? 'attendere…'
-        : isGuest
-          ? 'Crea account e join ✈'
-          : 'join · entra nel gruppo ✈'}
+      {submitting ? 'Attendi…' : isGuest ? 'Crea account e partecipa' : 'Partecipa'}
     </Button>
   );
 
@@ -276,29 +273,25 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
       <MobileShell>
         <NavBar back={`/airport/${slot.airportCode.toLowerCase()}/${slot.id}`} />
 
-        <h1 className="mb-1 text-[26px] font-extrabold leading-[1.1] tracking-tighter text-ink">
-          {isGuest ? (
-            <>entra nel gruppo <span className="text-primary">delle {slot.startTime}</span></>
-          ) : (
-            <>quasi fatto!</>
-          )}
+        <h1 className="mb-1 text-[26px] font-semibold leading-[1.1] tracking-tight text-ink">
+          {isGuest ? `Entra nel gruppo delle ${slot.startTime}` : 'Quasi fatto'}
         </h1>
-        <p className="mb-5 text-[13px] font-medium text-ink-soft">
+        <p className="mb-5 text-[13px] font-normal text-ink-soft">
           {airport?.city ?? slot.airportCode} · {formatDateIT(slot.date)} · ore{' '}
-          <span className="font-mono font-bold text-ink">{slot.startTime}</span>
+          <span className="font-mono font-semibold text-ink">{slot.startTime}</span>
         </p>
 
         <form onSubmit={onSubmit}>
           {isGuest ? (
             <>
-              <div className="label-cap mb-2 ml-1">crea il tuo account</div>
+              <div className="label-cap mb-2 ml-1">Crea il tuo account</div>
               {accountFields}
             </>
           ) : (
             <div className="mb-5">{loggedAccount}</div>
           )}
 
-          <div className="label-cap mb-2 ml-1 mt-5">le tue info per lo slot</div>
+          <div className="label-cap mb-2 ml-1 mt-5">Le tue info per lo slot</div>
           {slotFields}
 
           {!isGuest && <div className="mb-2" />}
@@ -317,41 +310,37 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
             className="mb-5"
           />
 
-          <div className="mb-6 flex items-center justify-between rounded-[20px] border border-line bg-card p-5 shadow">
+          <Card className="mb-6 flex items-center justify-between p-5">
             <div>
               <div className="label-cap">{formatDateIT(slot.date)}</div>
               <div className="mt-1 flex items-baseline gap-3">
                 <span className="font-mono text-[28px] font-bold leading-none text-ink">
                   {slot.startTime}
                 </span>
-                <span className="text-[14px] font-semibold text-ink-soft">
+                <span className="text-[14px] font-medium text-ink-soft">
                   {airport?.city ?? slot.airportCode} · {slot.meetingPoint}
                 </span>
               </div>
             </div>
             {airport && <Tag variant="filled">{airport.code}</Tag>}
-          </div>
+          </Card>
 
-          <h1 className="mb-5 text-[32px] font-extrabold leading-[1.1] tracking-tighter text-ink">
-            {isGuest ? (
-              <>entra nel gruppo <span className="text-primary">delle {slot.startTime}</span></>
-            ) : (
-              <>quasi fatto!</>
-            )}
+          <h1 className="mb-5 text-[32px] font-semibold leading-[1.1] tracking-tight text-ink">
+            {isGuest ? `Entra nel gruppo delle ${slot.startTime}` : 'Quasi fatto'}
           </h1>
 
           <form onSubmit={onSubmit}>
             {isGuest ? (
               <div className="flex gap-7">
                 <section className="flex-1">
-                  <div className="label-cap mb-2">crea il tuo account</div>
+                  <div className="label-cap mb-2">Crea il tuo account</div>
                   {accountFields}
                 </section>
 
                 <div className="w-px self-stretch bg-line" aria-hidden />
 
                 <section className="flex-1">
-                  <div className="label-cap mb-2">le tue info per lo slot</div>
+                  <div className="label-cap mb-2">Le tue info per lo slot</div>
                   {slotFields}
                   {termsCheckbox}
                   {errorBox}
@@ -361,7 +350,7 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
             ) : (
               <div>
                 <div className="mb-5">{loggedAccount}</div>
-                <div className="label-cap mb-2">le tue info per lo slot</div>
+                <div className="label-cap mb-2">Le tue info per lo slot</div>
                 {slotFields}
                 <div className="mb-2" />
                 {errorBox}

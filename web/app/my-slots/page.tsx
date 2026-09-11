@@ -7,6 +7,7 @@ import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
 import { DesktopShell } from '@/components/layout/DesktopShell';
 import { BackLink } from '@/components/layout/BackLink';
+import { Card } from '@/components/ui/Card';
 import { SegmentedTabs } from '@/components/ui/SegmentedTabs';
 import { MySlotCard } from '@/components/ui/MySlotCard';
 import type { AvatarStackItem } from '@/components/ui/AvatarStack';
@@ -128,25 +129,24 @@ export default function MySlotsPage() {
 
   const heading = (
     <>
-      <h1 className="text-[28px] font-extrabold tracking-tighter text-ink lg:text-[34px]">
-        I miei <span className="text-primary">slot</span>
+      <h1 className="text-[28px] font-semibold tracking-tight text-ink lg:text-[34px]">
+        I miei slot
       </h1>
-      <p className="mt-0.5 text-[13px] font-medium text-ink-soft lg:text-[14px]">
+      <p className="mt-0.5 text-[13px] font-normal text-ink-soft lg:text-[14px]">
         I gruppi a cui ti sei unito.
       </p>
     </>
   );
 
   const emptyState = (
-    <div className="rounded-[20px] border-[1.5px] border-dashed border-line bg-card p-8 text-center">
-      <div className="mb-2 text-[32px] leading-none">✈</div>
-      <div className="text-[14px] font-bold text-ink">Nessuno slot qui</div>
-      <p className="mt-1 text-[12px] font-medium text-ink-soft">
+    <Card dashed className="p-8 text-center">
+      <div className="text-[14px] font-semibold text-ink">Nessuno slot qui</div>
+      <p className="mt-1 text-[12px] font-normal text-ink-soft">
         {tab === 'today' && 'Niente di programmato per oggi.'}
         {tab === 'upcoming' && 'Nessuno slot futuro a cui ti sei unito.'}
         {tab === 'past' && 'Non hai slot passati registrati.'}
       </p>
-    </div>
+    </Card>
   );
 
   const slotHref = (slotId: string) => `/slot/${slotId}`;
@@ -163,9 +163,9 @@ export default function MySlotsPage() {
         </div>
 
         {loading ? (
-          <div className="rounded-[20px] border-[1.5px] border-dashed border-line bg-card p-8 text-center text-[13px] font-medium text-ink-soft">
+          <Card dashed className="p-8 text-center text-[13px] font-medium text-ink-soft">
             Caricamento…
-          </div>
+          </Card>
         ) : list.length === 0 ? (
           emptyState
         ) : (
@@ -190,7 +190,7 @@ export default function MySlotsPage() {
         <div className="flex-1" />
 
         <Link href="/airport" className={buttonClass('primary', 'md', true, 'mt-6')}>
-          cerca nuovi slot ✈
+          Cerca nuovi slot
         </Link>
       </MobileShell>
 
@@ -202,7 +202,7 @@ export default function MySlotsPage() {
             <div>{heading}</div>
             <Link href="/airport">
               <Button variant="primary" size="md">
-                cerca nuovi slot ✈
+                Cerca nuovi slot
               </Button>
             </Link>
           </div>
@@ -217,9 +217,9 @@ export default function MySlotsPage() {
           </div>
 
           {loading ? (
-            <div className="rounded-[20px] border-[1.5px] border-dashed border-line bg-card p-8 text-center text-[13px] font-medium text-ink-soft">
+            <Card dashed className="p-8 text-center text-[13px] font-medium text-ink-soft">
               Caricamento…
-            </div>
+            </Card>
           ) : list.length === 0 ? (
             emptyState
           ) : (
