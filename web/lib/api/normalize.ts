@@ -25,6 +25,7 @@ export function normalizeParticipant(row: any, slotId: string): ParticipantWithP
     slotId,
     userId: row.user_id,
     destination: row.destination ?? '',
+    flightNumber: row.flight_number ?? '',
     note: row.note ?? '',
     joinedAt: row.joined_at,
     profile: {

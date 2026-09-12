@@ -2,7 +2,8 @@
 
 import { notFound, useRouter } from 'next/navigation';
 import { useEffect, useState, type FormEvent } from 'react';
-import { Lock, Mail, MessageSquare, Plane, User } from 'lucide-react';
+import { Lock, Mail, MessageSquare, Plane, Ticket, User } from 'lucide-react';
+import { normalizeFlightNumber } from '@/lib/affinity';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
 import { DesktopShell } from '@/components/layout/DesktopShell';
@@ -38,6 +39,7 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [destination, setDestination] = useState('');
+  const [flightNumber, setFlightNumber] = useState('');
   const [note, setNote] = useState('');
   const [accept, setAccept] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -147,7 +149,8 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
     const { error: joinError } = await joinSlot(
       realSlotId,
       destination.trim().toUpperCase(),
-      note.trim()
+      note.trim(),
+      normalizeFlightNumber(flightNumber)
     );
 
     setSubmitting(false);
@@ -231,6 +234,14 @@ export default function JoinSlotPage({ params }: { params: { slotId: string } })
         placeholder="es. BCN"
         value={destination}
         onChange={(e) => setDestination(e.target.value)}
+      />
+      <InputField
+        label="Numero di volo (opzionale)"
+        icon={<Ticket className="h-5 w-5" strokeWidth={2} />}
+        placeholder="es. FR1234"
+        autoCapitalize="characters"
+        value={flightNumber}
+        onChange={(e) => setFlightNumber(e.target.value)}
       />
       <InputField
         label="Nota (opzionale)"

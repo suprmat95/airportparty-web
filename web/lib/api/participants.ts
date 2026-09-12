@@ -7,16 +7,18 @@ import type { MyJoinedSlot } from './types';
 export async function joinSlot(
   slotId: string,
   destination: string,
-  note: string
+  note: string,
+  flightNumber = ''
 ): Promise<{ error: string | null }> {
   const supabase = createClient();
   const { data: userResult } = await supabase.auth.getUser();
-  if (!userResult.user) return { error: 'Devi essere loggato per fare join.' };
+  if (!userResult.user) return { error: 'Devi essere loggato per partecipare.' };
   const { error } = await supabase.from('slot_participants').insert({
     slot_id: slotId,
     user_id: userResult.user.id,
     destination,
     note,
+    flight_number: flightNumber || null,
   });
   return { error: error?.message ?? null };
 }

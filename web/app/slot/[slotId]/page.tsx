@@ -25,6 +25,7 @@ import {
   initialsOf,
   pad2,
 } from '@/lib/utils';
+import { matchKind, sameDestinationLabel, sortByAffinity } from '@/lib/affinity';
 
 export default function SlotStatusPage({ params }: { params: { slotId: string } }) {
   const router = useRouter();
@@ -142,17 +143,23 @@ export default function SlotStatusPage({ params }: { params: { slotId: string } 
     </Card>
   );
 
+  const me = user ? participants.find((p) => p.userId === user.id) ?? null : null;
+  const people = sortByAffinity(participants, me);
+  const sameLabel = sameDestinationLabel(participants, me);
+
   const peopleList = (
     <ul className="space-y-2">
-      {participants.map((p) => (
+      {people.map((p) => (
         <li key={p.id}>
           <PersonRow
             name={p.profile.name}
             destination={p.destination}
+            flightNumber={p.flightNumber}
             note={p.note}
             initials={initialsOf(p.profile.name)}
             color={p.profile.avatarColor}
-            isMe={user ? p.userId === user.id : false}
+            isMe={me ? p.userId === me.userId : false}
+            match={matchKind(me, p)}
           />
         </li>
       ))}
@@ -234,6 +241,7 @@ export default function SlotStatusPage({ params }: { params: { slotId: string } 
                 <div className="label-cap">Nel gruppo</div>
                 <span className="text-[11px] font-semibold text-ink-soft">
                   {participants.length} {participants.length === 1 ? 'persona' : 'persone'}
+                  {sameLabel && ` · ${sameLabel}`}
                 </span>
               </div>
               {peopleList}

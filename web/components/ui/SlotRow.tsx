@@ -2,18 +2,22 @@ import { AvatarStack, type AvatarStackItem } from './AvatarStack';
 import { Button } from './Button';
 import { Card } from './Card';
 import { peopleLabel } from './SlotCard';
+import { DestinationChips } from './DestinationChips';
 import { cn } from '@/lib/utils';
+import type { DestinationGroup } from '@/lib/affinity';
 
 type Props = {
   time: string;
   going: number;
   avatars: AvatarStackItem[];
+  /** Where the people in this slot are flying to, most common first. */
+  destinations?: DestinationGroup[];
   highlight?: boolean;
   joined?: boolean;
   onJoin?: () => void;
 };
 
-export function SlotRow({ time, going, avatars, highlight, joined, onJoin }: Props) {
+export function SlotRow({ time, going, avatars, destinations = [], highlight, joined, onJoin }: Props) {
   return (
     <Card
       highlight={highlight}
@@ -25,9 +29,12 @@ export function SlotRow({ time, going, avatars, highlight, joined, onJoin }: Pro
 
       <div className="h-10 w-px bg-line" aria-hidden />
 
-      <div className="flex flex-1 items-center gap-3">
-        {going > 0 && <AvatarStack items={avatars} size={28} />}
-        <span className="text-[13px] font-medium text-ink-soft">{peopleLabel(going)}</span>
+      <div className="flex flex-1 flex-col gap-1.5">
+        <div className="flex items-center gap-3">
+          {going > 0 && <AvatarStack items={avatars} size={28} />}
+          <span className="text-[13px] font-medium text-ink-soft">{peopleLabel(going)}</span>
+        </div>
+        {destinations.length > 0 && <DestinationChips groups={destinations} />}
       </div>
 
       <Button

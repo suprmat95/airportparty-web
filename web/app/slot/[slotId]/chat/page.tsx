@@ -19,6 +19,8 @@ import { fetchMessages, sendMessage } from '@/lib/api/messages';
 import type { MessageWithProfile, SlotWithParticipants } from '@/lib/api/types';
 import type { Airport } from '@/lib/types';
 import { chatOpensAt, cn, formatTime, initialsOf, isChatOpen } from '@/lib/utils';
+import { matchKind, sortByAffinity } from '@/lib/affinity';
+import { MatchBadge } from '@/components/ui/MatchBadge';
 import Link from 'next/link';
 
 export default function ChatPage({ params }: { params: { slotId: string } }) {
@@ -78,7 +80,8 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
   );
 
   const participants = slot?.participants ?? [];
-  const joined = user ? participants.some((p) => p.userId === user.id) : false;
+  const me = user ? participants.find((p) => p.userId === user.id) ?? null : null;
+  const joined = me !== null;
   const avatars = participants.slice(0, 4).map((p) => ({
     initials: initialsOf(p.profile.name),
     color: p.profile.avatarColor,
@@ -212,7 +215,7 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
             <div className="p-5">
               <div className="label-cap mb-3">Partecipanti · {participants.length}</div>
               <ul className="space-y-2">
-                {participants.map((p) => (
+                {sortByAffinity(participants, me).map((p) => (
                   <li key={p.id} className="flex items-center gap-2.5">
                     <Avatar
                       initials={initialsOf(p.profile.name)}
@@ -220,11 +223,12 @@ export default function ChatPage({ params }: { params: { slotId: string } }) {
                       size={28}
                     />
                     <div className="min-w-0 flex-1">
-                      <div className="truncate text-[13px] font-semibold text-ink">
-                        {p.profile.name}
-                        {user && p.userId === user.id && (
-                          <span className="ml-1 text-[10px] font-semibold text-primary">(tu)</span>
+                      <div className="flex flex-wrap items-center gap-1.5 text-[13px] font-semibold text-ink">
+                        <span className="truncate">{p.profile.name}</span>
+                        {me && p.userId === me.userId && (
+                          <span className="text-[10px] font-semibold text-primary">(tu)</span>
                         )}
+                        <MatchBadge kind={matchKind(me, p)} />
                       </div>
                       {p.destination && (
                         <div className="flex items-center gap-1 truncate text-[11px] font-medium text-ink-soft">

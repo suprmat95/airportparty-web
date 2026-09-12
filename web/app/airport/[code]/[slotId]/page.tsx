@@ -24,6 +24,7 @@ import {
 import type { SlotWithParticipants } from '@/lib/api/types';
 import type { Airport } from '@/lib/types';
 import { formatDateIT, initialsOf, todayIso } from '@/lib/utils';
+import { matchKind, sameDestinationLabel, sortByAffinity } from '@/lib/affinity';
 
 export default function SlotDetailPage({
   params,
@@ -129,6 +130,10 @@ export default function SlotDetailPage({
     </Link>
   );
 
+  const me = user ? participants.find((p) => p.userId === user.id) ?? null : null;
+  const people = sortByAffinity(participants, me);
+  const sameLabel = sameDestinationLabel(participants, me);
+
   const peopleList = (
     <ul className="space-y-2">
       {participants.length === 0 && (
@@ -138,15 +143,17 @@ export default function SlotDetailPage({
           </Card>
         </li>
       )}
-      {participants.map((p) => (
+      {people.map((p) => (
         <li key={p.id}>
           <PersonRow
             name={p.profile.name}
             destination={p.destination}
+            flightNumber={p.flightNumber}
             note={p.note}
             initials={initialsOf(p.profile.name)}
             color={p.profile.avatarColor}
-            isMe={user ? p.userId === user.id : false}
+            isMe={me ? p.userId === me.userId : false}
+            match={matchKind(me, p)}
           />
         </li>
       ))}
@@ -176,6 +183,7 @@ export default function SlotDetailPage({
               <AvatarStack items={avatars} size={28} />
               <div className="mt-1.5 text-[11px] font-semibold text-ink-soft">
                 {participants.length} {participants.length === 1 ? 'persona' : 'persone'}
+                {sameLabel && ` · ${sameLabel}`}
               </div>
             </div>
           </div>
@@ -250,6 +258,7 @@ export default function SlotDetailPage({
                 <div className="label-cap">Chi c’è</div>
                 <span className="text-[11px] font-semibold text-ink-soft">
                   {participants.length} {participants.length === 1 ? 'persona' : 'persone'}
+                {sameLabel && ` · ${sameLabel}`}
                 </span>
               </div>
               {peopleList}

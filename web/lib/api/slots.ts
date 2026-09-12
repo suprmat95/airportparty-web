@@ -5,7 +5,7 @@ import type { SlotWithParticipants } from './types';
 const SLOT_SELECT = `
   id, airport_code, date, start_time, duration_minutes, meeting_point, meeting_note,
   slot_participants(
-    id, user_id, destination, note, joined_at,
+    id, user_id, destination, flight_number, note, joined_at,
     profiles(id, name, email, avatar_color)
   )
 `;

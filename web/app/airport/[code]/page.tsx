@@ -21,6 +21,7 @@ import { generateVirtualSlots, mergeSlots } from '@/lib/api/virtual';
 import type { TimelineSlot } from '@/lib/api/types';
 import type { Airport } from '@/lib/types';
 import { addDays, cn, initialsOf, formatDateIT, pad2, todayIso } from '@/lib/utils';
+import { groupDestinations } from '@/lib/affinity';
 
 type TimeRange = 'all' | 'morning' | 'afternoon' | 'evening';
 
@@ -214,7 +215,8 @@ export default function AirportTimelinePage({ params }: { params: { code: string
       initials: initialsOf(p.profile.name),
       color: p.profile.avatarColor,
     }));
-    return { participants, avatars };
+    const destinations = groupDestinations(participants);
+    return { participants, avatars, destinations };
   }
 
   return (
@@ -270,7 +272,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
 
           <ul className="space-y-3 pl-6">
             {filteredSlots.map((slot) => {
-              const { participants, avatars } = buildAvatars(slot);
+              const { participants, avatars, destinations } = buildAvatars(slot);
               const joined = user ? participants.some((p) => p.userId === user.id) : false;
               const going = participants.length;
               const highlight = going >= 4;
@@ -301,6 +303,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                       time={slot.startTime}
                       going={going}
                       avatars={avatars}
+                      destinations={destinations}
                       highlight={highlight}
                       joined={joined}
                       onJoin={() => goToSlot(slot.id)}
@@ -469,7 +472,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
           ) : (
             <ul className="space-y-3">
               {filteredSlots.map((slot) => {
-                const { participants, avatars } = buildAvatars(slot);
+                const { participants, avatars, destinations } = buildAvatars(slot);
                 const joined = user ? participants.some((p) => p.userId === user.id) : false;
                 const going = participants.length;
                 const highlight = going >= 4;
@@ -492,6 +495,7 @@ export default function AirportTimelinePage({ params }: { params: { code: string
                         time={slot.startTime}
                         going={going}
                         avatars={avatars}
+                      destinations={destinations}
                         highlight={highlight}
                         joined={joined}
                         onJoin={() => goToSlot(slot.id)}

@@ -44,6 +44,8 @@ export type SlotParticipant = {
   slotId: string;
   userId: string;
   destination: string;
+  /** Normalized flight number (e.g. FR1234); empty string when not provided. */
+  flightNumber: string;
   note: string;
   joinedAt: string;
 };
