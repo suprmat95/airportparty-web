@@ -13,8 +13,8 @@ const STEPS: Step[] = [
   {
     number: '01',
     icon: MapPin,
-    title: 'Scegli aeroporto e orario',
-    text: 'Vedi chi sta aspettando nella tua stessa fascia oraria. Senza account.',
+    title: 'Scegli aeroporto e giorno',
+    text: 'Anche a mesi di distanza. Vedi chi aspetta nella tua stessa fascia oraria. Senza account.',
   },
   {
     number: '02',

@@ -24,6 +24,7 @@ import {
 import type { SlotWithParticipants } from '@/lib/api/types';
 import type { Airport } from '@/lib/types';
 import { formatDateIT, initialsOf, todayIso } from '@/lib/utils';
+import { airportDateHref } from '@/lib/dates';
 import { matchKind, sameDestinationLabel, sortByAffinity } from '@/lib/affinity';
 
 export default function SlotDetailPage({
@@ -164,7 +165,7 @@ export default function SlotDetailPage({
     <>
       <MobileShell>
         <NavBar
-          back={`/airport/${airport.code.toLowerCase()}`}
+          back={airportDateHref(airport.code, slot.date)}
           right={<Tag variant="filled">{airport.code}</Tag>}
         />
 
@@ -214,7 +215,7 @@ export default function SlotDetailPage({
       <DesktopShell activeNav="airports">
         <div className="mx-auto max-w-[860px]">
           <BackLink
-            href={`/airport/${airport.code.toLowerCase()}`}
+            href={airportDateHref(airport.code, slot.date)}
             label={`Torna a ${airport.city}`}
             className="mb-5"
           />

@@ -1,7 +1,7 @@
 'use client';
 
-import { notFound, useRouter } from 'next/navigation';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { notFound, useRouter, useSearchParams } from 'next/navigation';
+import { Suspense, useCallback, useEffect, useMemo, useState } from 'react';
 import { Edit } from 'lucide-react';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { NavBar } from '@/components/layout/NavBar';
@@ -14,13 +14,15 @@ import { SlotCard } from '@/components/ui/SlotCard';
 import { SlotRow } from '@/components/ui/SlotRow';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { Calendar } from '@/components/ui/Calendar';
 import { useAuth } from '@/lib/useAuth';
 import { fetchAirport } from '@/lib/api/airports';
 import { fetchSlotsForAirport } from '@/lib/api/slots';
 import { generateVirtualSlots, mergeSlots } from '@/lib/api/virtual';
 import type { TimelineSlot } from '@/lib/api/types';
 import type { Airport } from '@/lib/types';
-import { addDays, cn, initialsOf, formatDateIT, pad2, todayIso } from '@/lib/utils';
+import { cn, initialsOf, formatDateIT, pad2, todayIso } from '@/lib/utils';
+import { airportDateHref, ctaLabel, heroDateLabel, parseDateParam } from '@/lib/dates';
 import { groupDestinations } from '@/lib/affinity';
 
 type TimeRange = 'all' | 'morning' | 'afternoon' | 'evening';
@@ -32,32 +34,6 @@ const TIME_RANGES: { id: TimeRange; label: string; sub: string; from: string; to
   { id: 'evening', label: 'Sera', sub: '18:00 – 00:00', from: '18:00', to: '23:59' },
 ];
 
-const DAY_SHORT = ['dom', 'lun', 'mar', 'mer', 'gio', 'ven', 'sab'];
-const MONTH_FULL_IT = [
-  'gennaio', 'febbraio', 'marzo', 'aprile', 'maggio', 'giugno',
-  'luglio', 'agosto', 'settembre', 'ottobre', 'novembre', 'dicembre',
-];
-
-function dayChipLabel(iso: string, today: string): string | null {
-  if (iso === today) return 'oggi';
-  if (iso === addDays(today, 1)) return 'domani';
-  return null;
-}
-
-function ctaLabel(iso: string, today: string): string {
-  const label = dayChipLabel(iso, today);
-  if (label) return label;
-  const d = new Date(`${iso}T00:00:00`);
-  return `${DAY_SHORT[d.getDay()]} ${d.getDate()}`;
-}
-
-function heroDateLabel(iso: string, today: string): string {
-  const chip = dayChipLabel(iso, today);
-  if (chip) return chip;
-  const d = new Date(`${iso}T00:00:00`);
-  return `il ${d.getDate()} ${MONTH_FULL_IT[d.getMonth()]}`;
-}
-
 function airportShortName(airport: { name: string; city: string }): string {
   const prefix = `${airport.city} `;
   return airport.name.startsWith(prefix)
@@ -66,7 +42,17 @@ function airportShortName(airport: { name: string; city: string }): string {
 }
 
 export default function AirportTimelinePage({ params }: { params: { code: string } }) {
+  // useSearchParams needs a Suspense boundary for static rendering.
+  return (
+    <Suspense fallback={null}>
+      <AirportTimeline params={params} />
+    </Suspense>
+  );
+}
+
+function AirportTimeline({ params }: { params: { code: string } }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { user } = useAuth();
 
   const [airport, setAirport] = useState<Airport | null>(null);
@@ -78,7 +64,9 @@ export default function AirportTimelinePage({ params }: { params: { code: string
 
   const today = useMemo(() => todayIso(), []);
 
-  const [date, setDate] = useState(today);
+  // `?date=` is the source of truth: reload, back and shared links keep the day.
+  // Missing or invalid values fall back to today without an error.
+  const date = parseDateParam(searchParams.get('date'), today);
   const [range, setRange] = useState<TimeRange>('all');
   const [sheetOpen, setSheetOpen] = useState(false);
 
@@ -169,9 +157,9 @@ export default function AirportTimelinePage({ params }: { params: { code: string
   }
 
   function applyFilters() {
-    setDate(draftDate);
     setRange(draftRange);
     setSheetOpen(false);
+    if (draftDate !== date) router.push(airportDateHref(params.code, draftDate));
   }
 
   if (airportMissing) notFound();
@@ -202,12 +190,6 @@ export default function AirportTimelinePage({ params }: { params: { code: string
     ? 'Slot di oggi, ogni ora'
     : `${ctaLabel(date, today).charAt(0).toUpperCase()}${ctaLabel(date, today).slice(1)}, ogni ora`;
   const sublineRange = range === 'all' ? '' : ` · ${TIME_RANGES.find((r) => r.id === range)!.label.toLowerCase()}`;
-
-  const days = Array.from({ length: 7 }, (_, i) => addDays(today, i));
-  const sheetMonth = (() => {
-    const d = new Date(`${draftDate}T00:00:00`);
-    return `${MONTH_FULL_IT[d.getMonth()]} ${d.getFullYear()}`;
-  })();
 
   function buildAvatars(slot: TimelineSlot) {
     const participants = slot.participants;
@@ -326,59 +308,11 @@ export default function AirportTimelinePage({ params }: { params: { code: string
           ariaLabel="Modifica data e fascia oraria"
         >
           <div className="px-5 pb-5 pt-2">
-            <div className="mb-4 flex items-baseline justify-between">
-              <h2 className="text-[22px] font-semibold tracking-tight text-ink">
-                Quando parti?
-              </h2>
-              <div className="text-[12px] font-semibold capitalize text-ink-soft">
-                {sheetMonth}
-              </div>
-            </div>
+            <h2 className="mb-4 text-[22px] font-semibold tracking-tight text-ink">
+              Quando parti?
+            </h2>
 
-            <div className="-mx-5 mb-5 overflow-x-auto px-5">
-              <div className="flex gap-2 pb-1">
-                {days.map((iso) => {
-                  const d = new Date(`${iso}T00:00:00`);
-                  const active = draftDate === iso;
-                  const label = dayChipLabel(iso, today);
-                  return (
-                    <button
-                      key={iso}
-                      type="button"
-                      onClick={() => setDraftDate(iso)}
-                      className={cn(
-                        'flex min-w-[60px] flex-col items-center rounded-sm border px-2 py-2.5 transition',
-                        active
-                          ? 'border-primary bg-primary text-white'
-                          : 'border-line bg-card text-ink hover:bg-card-alt'
-                      )}
-                    >
-                      <span
-                        className={cn(
-                          'text-[10px] font-semibold uppercase tracking-[1px]',
-                          active ? 'text-white/80' : 'text-ink-muted'
-                        )}
-                      >
-                        {DAY_SHORT[d.getDay()]}
-                      </span>
-                      <span className="mt-1 font-mono text-[18px] font-bold leading-none">
-                        {d.getDate()}
-                      </span>
-                      {label && (
-                        <span
-                          className={cn(
-                            'mt-1 text-[10px] font-semibold',
-                            active ? 'text-white' : 'text-primary'
-                          )}
-                        >
-                          {label}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
+            <Calendar value={draftDate} onChange={setDraftDate} today={today} className="mb-5" />
 
             <div className="label-cap mb-2">Fascia oraria</div>
             <div role="radiogroup" aria-label="Fascia oraria" className="mb-5 space-y-2">
@@ -514,57 +448,11 @@ export default function AirportTimelinePage({ params }: { params: { code: string
           ariaLabel="Modifica data e fascia oraria"
         >
           <div className="p-6">
-            <div className="mb-5 flex items-baseline justify-between">
-              <h2 className="text-[22px] font-semibold tracking-tight text-ink">
-                Quando parti?
-              </h2>
-              <div className="text-[12px] font-semibold capitalize text-ink-soft">
-                {sheetMonth}
-              </div>
-            </div>
+            <h2 className="mb-5 text-[22px] font-semibold tracking-tight text-ink">
+              Quando parti?
+            </h2>
 
-            <div className="mb-6 flex gap-2">
-              {days.map((iso) => {
-                const d = new Date(`${iso}T00:00:00`);
-                const active = draftDate === iso;
-                const label = dayChipLabel(iso, today);
-                return (
-                  <button
-                    key={iso}
-                    type="button"
-                    onClick={() => setDraftDate(iso)}
-                    className={cn(
-                      'flex flex-1 flex-col items-center rounded-sm border px-1 py-2.5 transition',
-                      active
-                        ? 'border-primary bg-primary text-white'
-                        : 'border-line bg-card text-ink hover:bg-card-alt'
-                    )}
-                  >
-                    <span
-                      className={cn(
-                        'text-[10px] font-semibold uppercase tracking-[1px]',
-                        active ? 'text-white/80' : 'text-ink-muted'
-                      )}
-                    >
-                      {DAY_SHORT[d.getDay()]}
-                    </span>
-                    <span className="mt-1 font-mono text-[18px] font-bold leading-none">
-                      {d.getDate()}
-                    </span>
-                    {label && (
-                      <span
-                        className={cn(
-                          'mt-1 text-[10px] font-semibold',
-                          active ? 'text-white' : 'text-primary'
-                        )}
-                      >
-                        {label}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+            <Calendar value={draftDate} onChange={setDraftDate} today={today} className="mb-6" />
 
             <div className="label-cap mb-2">Fascia oraria</div>
             <div role="radiogroup" aria-label="Fascia oraria" className="mb-6 grid grid-cols-2 gap-2">
