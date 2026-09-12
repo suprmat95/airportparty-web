@@ -25,6 +25,7 @@ import {
   initialsOf,
   pad2,
 } from '@/lib/utils';
+import { airportDateHref } from '@/lib/dates';
 import { matchKind, sameDestinationLabel, sortByAffinity } from '@/lib/affinity';
 
 export default function SlotStatusPage({ params }: { params: { slotId: string } }) {
@@ -109,7 +110,7 @@ export default function SlotStatusPage({ params }: { params: { slotId: string } 
       alert(`Errore: ${error}`);
       return;
     }
-    router.push(`/airport/${slot.airportCode.toLowerCase()}`);
+    router.push(airportDateHref(slot.airportCode, slot.date));
     router.refresh();
   }
 

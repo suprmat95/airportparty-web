@@ -60,9 +60,16 @@ export function formatTime(iso: string): string {
   return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
 }
 
-export function formatDateIT(date: string): string {
+/** "venerdì 12 settembre", with the year appended when it isn't the current one. */
+export function formatDateIT(date: string, today: string = todayIso()): string {
   const d = new Date(`${date}T00:00:00`);
-  return d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
+  const sameYear = date.slice(0, 4) === today.slice(0, 4);
+  return d.toLocaleDateString('it-IT', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    ...(sameYear ? {} : { year: 'numeric' }),
+  });
 }
 
 export type SlotStatus = 'done' | 'future' | 'chatready' | 'countdown' | 'waiting';

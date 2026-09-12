@@ -3,17 +3,21 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import { Search } from 'lucide-react';
+import { CalendarDays, ChevronDown, Search } from 'lucide-react';
 import { Wordmark } from '@/components/ui/Wordmark';
 import { Tag } from '@/components/ui/Tag';
 import { Avatar } from '@/components/ui/Avatar';
 import { HowItWorks } from '@/components/ui/HowItWorks';
+import { Calendar } from '@/components/ui/Calendar';
 import { buttonClass } from '@/components/ui/Button';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DesktopShell } from '@/components/layout/DesktopShell';
+import { BottomSheet } from '@/components/layout/BottomSheet';
+import { DateTimeModal } from '@/components/layout/DateTimeModal';
 import { fetchAirports } from '@/lib/api/airports';
 import { useAuth } from '@/lib/useAuth';
-import { initialsOf } from '@/lib/utils';
+import { initialsOf, todayIso } from '@/lib/utils';
+import { airportDateHref, fieldDateLabel } from '@/lib/dates';
 import type { Airport } from '@/lib/types';
 
 const QUICK_CODES = ['MXP', 'FCO', 'LIN', 'BGY', 'BLQ', 'NAP'];
@@ -23,6 +27,10 @@ export default function AirportSelectPage() {
   const { user, ready } = useAuth();
   const [q, setQ] = useState('');
   const [airports, setAirports] = useState<Airport[]>([]);
+
+  const today = useMemo(() => todayIso(), []);
+  const [date, setDate] = useState(today);
+  const [dateOpen, setDateOpen] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -50,7 +58,7 @@ export default function AirportSelectPage() {
   }, [q, airports]);
 
   function go(code: string) {
-    router.push(`/airport/${code.toLowerCase()}`);
+    router.push(airportDateHref(code, date));
   }
 
   function onSubmit(e: React.FormEvent) {
@@ -58,19 +66,43 @@ export default function AirportSelectPage() {
     if (matches.length > 0) go(matches[0].code);
   }
 
+  function pickDate(iso: string) {
+    setDate(iso);
+    setDateOpen(false);
+  }
+
   const searchCard = (
     <form onSubmit={onSubmit}>
-      <div className="flex items-center gap-3 rounded border border-line bg-card px-4 py-4 transition focus-within:border-primary">
-        <Search className="h-5 w-5 text-ink-muted" strokeWidth={2} />
-        <div className="flex-1">
-          <div className="label-cap">Da quale aeroporto parti?</div>
-          <input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Cerca città o codice…"
-            className="mt-0.5 w-full bg-transparent text-[17px] font-medium text-ink placeholder:font-normal placeholder:text-ink-muted focus:outline-none"
-          />
-        </div>
+      <div className="rounded border border-line bg-card transition focus-within:border-primary">
+        <label className="flex cursor-text items-center gap-3 px-4 py-4">
+          <Search className="h-5 w-5 text-ink-muted" strokeWidth={2} />
+          <div className="flex-1">
+            <div className="label-cap">Da quale aeroporto parti?</div>
+            <input
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Cerca città o codice…"
+              className="mt-0.5 w-full bg-transparent text-[17px] font-medium text-ink placeholder:font-normal placeholder:text-ink-muted focus:outline-none"
+            />
+          </div>
+        </label>
+
+        <button
+          type="button"
+          onClick={() => setDateOpen(true)}
+          aria-haspopup="dialog"
+          aria-expanded={dateOpen}
+          className="flex w-full items-center gap-3 border-t border-line px-4 py-3.5 text-left transition hover:bg-card-alt"
+        >
+          <CalendarDays className="h-5 w-5 text-ink-muted" strokeWidth={2} />
+          <div className="flex-1">
+            <div className="label-cap">Quando parti?</div>
+            <div className="mt-0.5 text-[15px] font-medium text-ink">
+              {fieldDateLabel(date, today)}
+            </div>
+          </div>
+          <ChevronDown className="h-4 w-4 text-ink-muted" strokeWidth={2} />
+        </button>
       </div>
 
       {matches.length > 0 && (
@@ -97,11 +129,18 @@ export default function AirportSelectPage() {
   const quickChips = (
     <div className="flex flex-wrap gap-2">
       {QUICK_CODES.map((c) => (
-        <Link key={c} href={`/airport/${c.toLowerCase()}`}>
+        <Link key={c} href={airportDateHref(c, date)}>
           <Tag>{c}</Tag>
         </Link>
       ))}
     </div>
+  );
+
+  const datePanel = (
+    <>
+      <h2 className="mb-4 text-[22px] font-semibold tracking-tight text-ink">Quando parti?</h2>
+      <Calendar value={date} onChange={pickDate} today={today} />
+    </>
   );
 
   return (
@@ -142,6 +181,14 @@ export default function AirportSelectPage() {
         <div className="mb-7">{quickChips}</div>
 
         <HowItWorks />
+
+        <BottomSheet
+          open={dateOpen}
+          onClose={() => setDateOpen(false)}
+          ariaLabel="Scegli il giorno di partenza"
+        >
+          <div className="px-5 pb-6 pt-2">{datePanel}</div>
+        </BottomSheet>
       </MobileShell>
 
       {/* Desktop: 2 colonne side-by-side, gap 60px */}
@@ -171,6 +218,14 @@ export default function AirportSelectPage() {
         </div>
 
         <HowItWorks className="mx-auto max-w-[900px] pb-10" />
+
+        <DateTimeModal
+          open={dateOpen}
+          onClose={() => setDateOpen(false)}
+          ariaLabel="Scegli il giorno di partenza"
+        >
+          <div className="p-6">{datePanel}</div>
+        </DateTimeModal>
       </DesktopShell>
     </>
   );
