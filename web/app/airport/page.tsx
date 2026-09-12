@@ -7,6 +7,7 @@ import { Search } from 'lucide-react';
 import { Wordmark } from '@/components/ui/Wordmark';
 import { Tag } from '@/components/ui/Tag';
 import { Avatar } from '@/components/ui/Avatar';
+import { HowItWorks } from '@/components/ui/HowItWorks';
 import { buttonClass } from '@/components/ui/Button';
 import { MobileShell } from '@/components/layout/MobileShell';
 import { DesktopShell } from '@/components/layout/DesktopShell';
@@ -138,18 +139,14 @@ export default function AirportSelectPage() {
         <div className="mb-4">{searchCard}</div>
 
         <div className="label-cap mb-2.5 ml-1">Oppure scegli al volo</div>
-        <div className="mb-5">{quickChips}</div>
+        <div className="mb-7">{quickChips}</div>
 
-        <div className="flex-1" />
-
-        <p className="text-center text-xs font-medium text-ink-muted">
-          Scegli l’aeroporto e ti mostriamo chi c’è oggi.
-        </p>
+        <HowItWorks />
       </MobileShell>
 
       {/* Desktop: 2 colonne side-by-side, gap 60px */}
       <DesktopShell activeNav="airports">
-        <div className="flex min-h-[calc(100vh-200px)] flex-col items-center justify-center gap-[60px] lg:flex-row lg:items-center">
+        <div className="flex flex-col items-center justify-center gap-[60px] py-12 lg:flex-row lg:items-center">
           {/* Hero */}
           <div className="flex-1">
             <h1 className="mb-3 text-[48px] font-semibold leading-[1.05] tracking-tight text-ink">
@@ -170,12 +167,10 @@ export default function AirportSelectPage() {
 
             <div className="label-cap mb-2.5 ml-1 mt-5">Oppure scegli al volo</div>
             {quickChips}
-
-            <p className="mt-6 text-[12px] font-medium text-ink-muted">
-              Scegli l’aeroporto e ti mostriamo chi c’è oggi.
-            </p>
           </div>
         </div>
+
+        <HowItWorks className="mx-auto max-w-[900px] pb-10" />
       </DesktopShell>
     </>
   );
