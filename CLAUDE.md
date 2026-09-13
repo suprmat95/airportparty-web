@@ -52,4 +52,5 @@ Spec: `docs/superpowers/specs/2026-09-11-clean-product-redesign-design.md`.
 - TypeScript strict, Tailwind con i token definiti in `tailwind.config.ts`; niente colori hex inline nei componenti (eccezioni: `themeColor` in `app/layout.tsx` e i colori avatar).
 - Icone da `lucide-react`, date con `date-fns`.
 - Mobile-first: verifica sempre il layout sotto i 1024px.
+- All'avvio di ogni sessione l'hook `SessionStart` (`.claude/hooks/context.sh`, registrato in `.claude/settings.json`) stampa branch, ultimi 5 commit e file modificati: è di sola lettura, l'output che vedi nel contesto iniziale arriva da lì.
 - Per domande di orientamento sul codice ("dove sta X", "come funziona Y") usa il subagent `codebase-explorer` (`.claude/agents/codebase-explorer.md`): è di sola lettura, non usarlo per fare modifiche.

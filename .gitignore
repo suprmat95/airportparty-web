@@ -3,9 +3,11 @@
 Thumbs.db
 
 # Claude Code local config + memory (machine-specific)
-# Project-level subagents in .claude/agents/ are shared and committed.
+# Project-level subagents, hooks and settings.json are shared and committed.
 .claude/*
 !.claude/agents/
+!.claude/hooks/
+!.claude/settings.json
 
 # Editors
 .vscode/
