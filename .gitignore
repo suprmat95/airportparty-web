@@ -6,6 +6,7 @@ Thumbs.db
 # Project-level subagents, hooks and settings.json are shared and committed.
 .claude/*
 !.claude/agents/
+!.claude/skills
 !.claude/hooks/
 !.claude/settings.json
 
